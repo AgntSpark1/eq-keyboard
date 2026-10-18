@@ -11,6 +11,24 @@ final class PinyinEngineTests: XCTestCase {
         XCTAssertEqual(engine.segment("xi'an"), ["xi", "an"])
         XCTAssertEqual(engine.segment("nih"), ["ni", "h"])
         XCTAssertEqual(engine.segment("zh"), ["zh"])
+        XCTAssertEqual(engine.segment("zhd"), ["zh", "d"])
+        XCTAssertEqual(engine.segment("nh"), ["n", "h"])
+    }
+
+    func testAbbreviations() {
+        XCTAssertEqual(engine.candidates(for: "nh").first, Candidate(text: "你好", consumedLength: 2))
+        XCTAssertEqual(engine.candidates(for: "zhd").first, Candidate(text: "知道", consumedLength: 3))
+        XCTAssertEqual(engine.candidates(for: "xh").first?.text, "喜欢")
+        XCTAssertEqual(engine.candidates(for: "nhao").first?.text, "你好")
+    }
+
+    func testUnfinishedLastSyllableInLongerInput() {
+        XCTAssertEqual(engine.candidates(for: "xihua").first?.text, "喜欢")
+    }
+
+    func testChatWordsOutrankNewsWords() {
+        let candidates = engine.candidates(for: "xh").map(\.text)
+        XCTAssertLessThan(candidates.firstIndex(of: "喜欢")!, candidates.firstIndex(of: "先后")!)
     }
 
     func testWholeWordComesFirst() {

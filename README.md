@@ -75,6 +75,8 @@ Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘�
 
 ## 拼音词库
 
+支持全拼和简拼（nh → 你好，zhd → 知道，也可以混着打，如 nhao）。常用聊天词放在 `tools/chat_words.txt`，生成词库时会把它们的词频抬高，避免新闻语料把“南海”排在“你好”前面。
+
 `ios/PinyinKit/Sources/PinyinKit/Resources/pinyin_dict.tsv` 由 `tools/build_pinyin_dict.py` 生成，词语和词频来自 [jieba](https://github.com/fxsjy/jieba) 0.42.1，读音来自 [pypinyin](https://github.com/mozillazg/python-pinyin) 0.55.0，两者均为 MIT 许可。只收 GB2312 范围内的简体字，多字词按词频取前 12 万条。
 
 ## 登录与订阅
@@ -86,5 +88,5 @@ Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘�
 
 ## 尚未完成
 
-- 拼音输入的进阶能力：简拼（如 nh → 你好）、整句联想、模糊音、用户词频学习。
+- 拼音输入的进阶能力：整句联想、模糊音、用户词频学习。
 - Android 输入法、语气学习、分寸引擎、发送前检查（第二阶段）。
