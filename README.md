@@ -58,7 +58,7 @@ xcodegen generate
 open EQKeyboard.xcodeproj
 ```
 
-在 `project.yml` 中填写 `DEVELOPMENT_TEAM`、把 `bundleIdPrefix` 和 App Group（`group.com.example.eqkeyboard`，在 `project.yml` 与 `Shared/SharedStore.swift` 中）改成你自己的，并把 `EQ_API_BASE_URL` 指向后端。
+Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘是 `.keyboard`，App Group 是 `group.com.yonghuizhang.eqkeyboard`）都在 `project.yml` 里，`EQ_API_BASE_URL` 指向后端。
 
 ## 用 TestFlight 在手机上安装
 
@@ -66,11 +66,10 @@ open EQKeyboard.xcodeproj
 
 一次性准备（都能在手机浏览器里完成）：
 
-1. 在 App Store Connect 里新建 App，Bundle ID 与下面的 `EQ_BUNDLE_ID` 一致（键盘扩展会自动用 `<Bundle ID>.keyboard`）。
-2. 在 App Store Connect 的“用户和访问 > 集成 > App Store Connect API”里生成一个“App 管理”权限的密钥，记下 Issuer ID、Key ID，并下载 .p8 文件（只能下载一次）。
-3. 在 GitHub 仓库 Settings > Secrets and variables > Actions 里添加：
-   - Variables：`APPLE_TEAM_ID`、`EQ_BUNDLE_ID`、`EQ_API_BASE_URL`（部署好的后端地址）
-   - Secrets：`ASC_KEY_ID`、`ASC_ISSUER_ID`、`ASC_PRIVATE_KEY`（.p8 文件的全部文字）
+1. 在 App Store Connect 的“用户和访问 > 集成 > App Store Connect API”里生成一个“App 管理”权限的团队密钥，记下 Issuer ID、密钥 ID，并下载 .p8 文件（只能下载一次）。
+2. 在 GitHub 仓库 Settings > Secrets and variables > Actions 里添加 Secrets：`ASC_KEY_ID`、`ASC_ISSUER_ID`、`ASC_PRIVATE_KEY`（.p8 文件的全部文字）。后端部署好后再加 Variable `EQ_API_BASE_URL`。
+3. 在 Actions 页面手动运行一次 TestFlight。这一次会自动注册 Bundle ID 和 App Group，但因为还没有 App，上传会失败，属于正常。
+4. 在 App Store Connect 新建 App，Bundle ID 选 `com.yonghuizhang.eqkeyboard`，然后再运行一次，就会出现在 TestFlight 里。
 
 后端的 `APPLE_BUNDLE_ID` 要和 `EQ_BUNDLE_ID` 相同。
 

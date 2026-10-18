@@ -1,7 +1,7 @@
 # 用 XcodeGen 生成 Xcode 工程：brew install xcodegen && xcodegen generate
 name: EQKeyboard
 options:
-  bundleIdPrefix: com.example.eqkeyboard
+  bundleIdPrefix: com.yonghuizhang.eqkeyboard
   deploymentTarget:
     iOS: "17.0"
 packages:
@@ -10,9 +10,9 @@ packages:
 settings:
   base:
     SWIFT_VERSION: "5.10"
-    DEVELOPMENT_TEAM: ""  # Apple 开发者 Team ID，云端打包时由 GitHub 变量 APPLE_TEAM_ID 传入
+    DEVELOPMENT_TEAM: 2U62224FHB
     # App 的 Bundle ID；键盘是 <Bundle ID>.keyboard，App Group 是 group.<Bundle ID>
-    EQ_BUNDLE_ID: com.example.eqkeyboard
+    EQ_BUNDLE_ID: com.yonghuizhang.eqkeyboard
     CURRENT_PROJECT_VERSION: "1"
     MARKETING_VERSION: "0.1.0"
     # 后端地址，App 与键盘共用

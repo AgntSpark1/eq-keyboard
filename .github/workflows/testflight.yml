@@ -1,9 +1,10 @@
 name: TestFlight
 
 # 在云端签名、打包并上传到 TestFlight，手机上用 TestFlight App 安装。
-# 需要在 GitHub 仓库 Settings > Secrets and variables > Actions 里配置：
-#   变量 Variables：APPLE_TEAM_ID、EQ_BUNDLE_ID、EQ_API_BASE_URL
+# Team ID 和 Bundle ID 写在 ios/project.yml 里。需要在 GitHub 仓库 Settings > Secrets and variables > Actions 里配置：
 #   密钥 Secrets：ASC_KEY_ID、ASC_ISSUER_ID、ASC_PRIVATE_KEY（App Store Connect API 密钥 .p8 文件的全部内容）
+#   变量 Variables（可选）：EQ_API_BASE_URL 后端地址
+# 没配密钥时跳过，不会报错。
 on:
   workflow_dispatch:
   push:
@@ -16,29 +17,35 @@ concurrency:
 
 jobs:
   upload:
-    if: vars.APPLE_TEAM_ID != '' && vars.EQ_BUNDLE_ID != ''
     runs-on: macos-15
     defaults:
       run:
         working-directory: ios
     env:
+      HAS_KEY: ${{ secrets.ASC_KEY_ID != '' }}
       BUILD_SETTINGS: >-
-        DEVELOPMENT_TEAM=${{ vars.APPLE_TEAM_ID }}
-        EQ_BUNDLE_ID=${{ vars.EQ_BUNDLE_ID }}
-        EQ_API_BASE_URL=${{ vars.EQ_API_BASE_URL }}
         CURRENT_PROJECT_VERSION=${{ github.run_number }}
         CODE_SIGN_STYLE=Automatic
+        ${{ vars.EQ_API_BASE_URL && format('EQ_API_BASE_URL={0}', vars.EQ_API_BASE_URL) || '' }}
     steps:
+      - name: Skip without App Store Connect key
+        if: env.HAS_KEY != 'true'
+        run: echo "::notice::ASC_KEY_ID 等密钥还没配置，跳过 TestFlight 上传"
       - uses: actions/checkout@v4
+        if: env.HAS_KEY == 'true'
       - run: brew install xcodegen
+        if: env.HAS_KEY == 'true'
       - run: xcodegen generate
+        if: env.HAS_KEY == 'true'
       - name: Write App Store Connect API key
+        if: env.HAS_KEY == 'true'
         env:
           ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
         run: |
           mkdir -p "$RUNNER_TEMP/asc"
           printf '%s' "$ASC_PRIVATE_KEY" > "$RUNNER_TEMP/asc/key.p8"
       - name: Archive
+        if: env.HAS_KEY == 'true'
         run: |
           # -allowProvisioningUpdates 让 Xcode 用 API 密钥自动注册 App ID、App Group 并生成证书和描述文件
           xcodebuild archive \
@@ -52,6 +59,7 @@ jobs:
             -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}" \
             $BUILD_SETTINGS
       - name: Upload to TestFlight
+        if: env.HAS_KEY == 'true'
         run: |
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
           <?xml version="1.0" encoding="UTF-8"?>
@@ -61,7 +69,7 @@ jobs:
             <key>method</key><string>app-store-connect</string>
             <key>destination</key><string>upload</string>
             <key>signingStyle</key><string>automatic</string>
-            <key>teamID</key><string>${{ vars.APPLE_TEAM_ID }}</string>
+            <key>teamID</key><string>2U62224FHB</string>
           </dict>
           </plist>
           PLIST
