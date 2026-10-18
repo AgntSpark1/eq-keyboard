@@ -10,13 +10,21 @@ packages:
 settings:
   base:
     SWIFT_VERSION: "5.10"
-    DEVELOPMENT_TEAM: ""  # 填入你的 Apple 开发者 Team ID
+    DEVELOPMENT_TEAM: ""  # Apple 开发者 Team ID，云端打包时由 GitHub 变量 APPLE_TEAM_ID 传入
+    # App 的 Bundle ID；键盘是 <Bundle ID>.keyboard，App Group 是 group.<Bundle ID>
+    EQ_BUNDLE_ID: com.example.eqkeyboard
+    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "0.1.0"
     # 后端地址，App 与键盘共用
     EQ_API_BASE_URL: "http://localhost:8787"
 targets:
   EQKeyboard:
     type: application
     platform: iOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(EQ_BUNDLE_ID)
+        TARGETED_DEVICE_FAMILY: "1"
     sources:
       - App
       - Shared
@@ -25,19 +33,27 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: EQ Keyboard
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
         UILaunchScreen: {}
+        EQAppGroup: group.$(EQ_BUNDLE_ID)
         EQAPIBaseURL: $(EQ_API_BASE_URL)
         NSPhotoLibraryUsageDescription: Import chat screenshots. Text is recognized on your phone and the image is never uploaded.
     entitlements:
       path: App/EQKeyboard.entitlements
       properties:
-        com.apple.security.application-groups: [group.com.example.eqkeyboard]
+        com.apple.security.application-groups: [group.$(EQ_BUNDLE_ID)]
         com.apple.developer.applesignin: [Default]
     dependencies:
       - target: EQKeyboardExtension
   EQKeyboardExtension:
     type: app-extension
     platform: iOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(EQ_BUNDLE_ID).keyboard
+        TARGETED_DEVICE_FAMILY: "1"
     sources:
       - KeyboardExtension
       - Shared
@@ -46,7 +62,10 @@ targets:
       path: KeyboardExtension/Info.plist
       properties:
         CFBundleDisplayName: EQ Keyboard
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         EQAPIBaseURL: $(EQ_API_BASE_URL)
+        EQAppGroup: group.$(EQ_BUNDLE_ID)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.keyboard-service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
@@ -61,4 +80,4 @@ targets:
     entitlements:
       path: KeyboardExtension/EQKeyboardExtension.entitlements
       properties:
-        com.apple.security.application-groups: [group.com.example.eqkeyboard]
+        com.apple.security.application-groups: [group.$(EQ_BUNDLE_ID)]
