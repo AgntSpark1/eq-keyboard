@@ -3,14 +3,14 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import type { AppleTokenVerifier, Sessions } from "./auth.js";
 import { BadModelOutputError, RefusedError, type Generator } from "./generate.js";
-import { DailyQuota } from "./quota.js";
+import type { Quota } from "./quota.js";
 import { ReplyRequestSchema } from "./schema.js";
 import { applyTransaction, type AppStoreVerifier } from "./subscriptions.js";
-import type { User, UserStore } from "./users.js";
+import { isSubscribed, type User, type UserStore } from "./users.js";
 
 export interface ServerDeps {
   generate: Generator;
-  quota: DailyQuota;
+  quota: Quota;
   users: UserStore;
   limits: { free: number; subscriber: number };
   /** 未配置 SESSION_SECRET 时为 undefined，登录相关接口返回 503 */
@@ -33,13 +33,13 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     const header = request.headers.authorization;
     if (!deps.sessions || !header?.startsWith("Bearer ")) return undefined;
     const userId = await deps.sessions.verify(header.slice("Bearer ".length));
-    return userId ? users.get(userId) : undefined;
+    return userId ? await users.get(userId) : undefined;
   }
 
   /** 登录用户按用户计额度，未登录按设备计 */
   function quotaIdentity(request: FastifyRequest, user: User | undefined) {
     if (user) {
-      return { id: `user:${user.id}`, limit: users.isSubscribed(user) ? limits.subscriber : limits.free };
+      return { id: `user:${user.id}`, limit: isSubscribed(user) ? limits.subscriber : limits.free };
     }
     const deviceId = request.headers["x-device-id"];
     if (typeof deviceId !== "string" || deviceId.length < 8) return undefined;
@@ -58,7 +58,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     } catch {
       return reply.code(401).send({ error: "invalid_identity_token" });
     }
-    const user = users.findOrCreateByAppleSub(appleSub);
+    const user = await users.findOrCreateByAppleSub(appleSub);
     return { sessionToken: await deps.sessions.issue(user.id), userId: user.id };
   });
 
@@ -68,9 +68,9 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     const identity = quotaIdentity(request, user)!;
     return {
       userId: user.id,
-      subscribed: users.isSubscribed(user),
+      subscribed: isSubscribed(user),
       subscriptionExpiresAt: user.subscriptionExpiresAt ?? null,
-      quotaRemaining: quota.remaining(identity.id, identity.limit),
+      quotaRemaining: await quota.remaining(identity.id, identity.limit),
     };
   });
 
@@ -86,9 +86,10 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     } catch {
       return reply.code(400).send({ error: "invalid_transaction" });
     }
-    const result = applyTransaction(tx, users, deps.subscriptionProductIds, user.id);
+    const result = await applyTransaction(tx, users, deps.subscriptionProductIds, user.id);
     if (result === null) return reply.code(400).send({ error: "transaction_not_for_user" });
-    return { subscribed: users.isSubscribed(user), subscriptionExpiresAt: user.subscriptionExpiresAt ?? null };
+    const updated = { ...user, subscriptionExpiresAt: result };
+    return { subscribed: isSubscribed(updated), subscriptionExpiresAt: result ?? null };
   });
 
   // App Store Server Notifications V2：续订、退款、过期都会推到这里
@@ -98,7 +99,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     if (!body.success) return reply.code(400).send({ error: "invalid_request" });
     try {
       const tx = await deps.appStore.notification(body.data.signedPayload);
-      if (tx) applyTransaction(tx, users, deps.subscriptionProductIds);
+      if (tx) await applyTransaction(tx, users, deps.subscriptionProductIds);
     } catch {
       return reply.code(400).send({ error: "invalid_notification" });
     }
@@ -115,13 +116,13 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       return reply.code(400).send({ error: "invalid_request", detail: parsed.error.issues });
     }
 
-    if (!quota.take(identity.id, identity.limit)) {
+    if (!(await quota.take(identity.id, identity.limit))) {
       return reply.code(429).send({ error: "daily_quota_exceeded" });
     }
 
     try {
       const suggestions = await deps.generate(parsed.data);
-      return { ...suggestions, quota_remaining: quota.remaining(identity.id, identity.limit) };
+      return { ...suggestions, quota_remaining: await quota.remaining(identity.id, identity.limit) };
     } catch (err) {
       if (err instanceof RefusedError) {
         return reply.code(422).send({ error: "refused" });

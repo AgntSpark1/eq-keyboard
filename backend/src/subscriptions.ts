@@ -35,21 +35,21 @@ export function createAppStoreVerifier(config: Config["apple"]): AppStoreVerifie
  * 根据交易更新用户订阅状态。只认我们自己的订阅商品，并用 appAccountToken 找到用户。
  * 返回更新后的到期时间；交易不属于任何用户时返回 null。
  */
-export function applyTransaction(
+export async function applyTransaction(
   tx: TransactionInfo,
   users: UserStore,
   productIds: string[],
   expectedUserId?: string,
-): number | undefined | null {
+): Promise<number | undefined | null> {
   if (!tx.productId || !productIds.includes(tx.productId)) return null;
   const userId = tx.appAccountToken?.toLowerCase();
   if (!userId || (expectedUserId && userId !== expectedUserId.toLowerCase())) return null;
-  const user = users.get(userId);
+  const user = await users.get(userId);
   if (!user) return null;
   // 退款或撤销立即失效；否则取较晚的到期时间，避免乱序到达的旧通知把订阅改短
   const expiresAt = tx.revocationDate
     ? undefined
     : Math.max(tx.expiresDate ?? 0, user.subscriptionExpiresAt ?? 0) || undefined;
-  users.setSubscription(user.id, expiresAt);
+  await users.setSubscription(user.id, expiresAt);
   return expiresAt;
 }
