@@ -4,7 +4,7 @@ import Foundation
 final class SharedStore {
     static let shared = SharedStore()
     /// 由构建设置 EQ_BUNDLE_ID 生成，写在 Info.plist 的 EQAppGroup
-    static let appGroup = Bundle.main.object(forInfoDictionaryKey: "EQAppGroup") as? String ?? "group.com.example.eqkeyboard"
+    static let appGroup = Bundle.main.object(forInfoDictionaryKey: "EQAppGroup") as? String ?? "group.com.yonghuizhang.eqkeyboard"
 
     private let defaults: UserDefaults
     private let encoder = JSONEncoder()
