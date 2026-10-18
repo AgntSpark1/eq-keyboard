@@ -44,7 +44,9 @@ npm test
 
 ## iOS
 
-需要 macOS、Xcode 15 以上和 [XcodeGen](https://github.com/yonaskolb/XcodeGen)。
+没有 Mac 也可以：每次提交 PR，GitHub Actions 会在云端 macOS 上自动编译 iOS 工程（见 `.github/workflows/ci.yml`）。
+
+本地开发需要 macOS、Xcode 15 以上和 [XcodeGen](https://github.com/yonaskolb/XcodeGen)。
 
 ```bash
 cd ios
