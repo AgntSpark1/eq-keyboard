@@ -18,7 +18,7 @@ struct AccountView: View {
                 } else {
                     Section {
                         Text("account.why").font(.footnote).foregroundStyle(.secondary)
-                        SignInWithAppleButton(.signIn, onRequest: model.configure, onCompletion: model.completeSignIn)
+                        SignInWithAppleButton(.signIn) { model.configure($0) } onCompletion: { model.completeSignIn($0) }
                             .frame(height: 48)
                     }
                 }

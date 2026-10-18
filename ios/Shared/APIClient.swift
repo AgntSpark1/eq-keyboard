@@ -41,7 +41,7 @@ struct APIClient {
         }
         redacted.draft = request.draft.map(Redactor.redact)
 
-        var urlRequest = request("v1/replies")
+        var urlRequest = makeRequest("v1/replies")
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try JSONEncoder().encode(redacted)
@@ -54,7 +54,7 @@ struct APIClient {
     }
 
     func account() async throws -> AccountStatus {
-        try await send(request("v1/me"))
+        try await send(makeRequest("v1/me"))
     }
 
     /// 把 StoreKit 交易的 JWS 交给后端校验，返回最新订阅状态
@@ -63,14 +63,14 @@ struct APIClient {
     }
 
     private func post<T: Decodable>(_ path: String, body: [String: String]) async throws -> T {
-        var urlRequest = request(path)
+        var urlRequest = makeRequest(path)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try JSONEncoder().encode(body)
         return try await send(urlRequest)
     }
 
-    private func request(_ path: String) -> URLRequest {
+    private func makeRequest(_ path: String) -> URLRequest {
         var urlRequest = URLRequest(url: baseURL.appending(path: path))
         urlRequest.timeoutInterval = 30
         urlRequest.setValue(store.deviceId, forHTTPHeaderField: "X-Device-Id")
