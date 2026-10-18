@@ -4,6 +4,9 @@ options:
   bundleIdPrefix: com.example.eqkeyboard
   deploymentTarget:
     iOS: "17.0"
+packages:
+  PinyinKit:
+    path: PinyinKit
 settings:
   base:
     SWIFT_VERSION: "5.10"
@@ -52,6 +55,8 @@ targets:
             PrimaryLanguage: zh-Hans
             # 联网和读剪贴板需要用户开启“允许完全访问”
             RequestsOpenAccess: true
+    dependencies:
+      - package: PinyinKit
     entitlements:
       path: KeyboardExtension/EQKeyboardExtension.entitlements
       properties:

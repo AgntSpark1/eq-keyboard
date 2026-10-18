@@ -89,7 +89,7 @@ private struct ToneChip: View {
     }
 }
 
-/// 最简英文字母键盘。TODO: 接入拼音输入引擎
+/// 字母键盘：中文模式下字母进入拼音缓冲区，候选栏显示在键盘上方
 private struct LetterKeys: View {
     @ObservedObject var model: KeyboardModel
     let needsGlobe: Bool
@@ -100,26 +100,34 @@ private struct LetterKeys: View {
 
     var body: some View {
         VStack(spacing: 6) {
+            if model.chineseMode && !model.composing.isEmpty {
+                CandidateBar(model: model)
+            }
             ForEach(rows, id: \.self) { row in
                 HStack(spacing: 4) {
                     if row == "zxcvbnm" {
-                        key(systemImage: upper ? "shift.fill" : "shift") { upper.toggle() }
+                        if model.chineseMode {
+                            key("'") { model.typeApostrophe() }
+                        } else {
+                            key(systemImage: upper ? "shift.fill" : "shift") { upper.toggle() }
+                        }
                     }
                     ForEach(Array(row), id: \.self) { ch in
-                        let letter = upper ? String(ch).uppercased() : String(ch)
-                        key(letter) { model.insert(letter) }
+                        let letter = upper && !model.chineseMode ? String(ch).uppercased() : String(ch)
+                        key(letter) { model.typeLetter(letter) }
                     }
                     if row == "zxcvbnm" {
-                        key(systemImage: "delete.left") { model.deleteBackward() }
+                        key(systemImage: "delete.left") { model.tapDelete() }
                     }
                 }
             }
             HStack(spacing: 4) {
                 if needsGlobe { key(systemImage: "globe", action: onGlobe) }
-                key("，") { model.insert("，") }
-                key(String(localized: "keyboard.space")) { model.insert(" ") }.frame(maxWidth: .infinity)
-                key("。") { model.insert("。") }
-                key(systemImage: "return") { model.insert("\n") }
+                key(model.chineseMode ? "中" : "EN") { model.toggleLanguage() }
+                key(model.chineseMode ? "，" : ",") { model.typePunctuation(model.chineseMode ? "，" : ",") }
+                key(String(localized: "keyboard.space")) { model.tapSpace() }.frame(maxWidth: .infinity)
+                key(model.chineseMode ? "。" : ".") { model.typePunctuation(model.chineseMode ? "。" : ".") }
+                key(systemImage: "return") { model.tapReturn() }
             }
         }
     }
@@ -138,5 +146,25 @@ private struct LetterKeys: View {
                 .background(Color(uiColor: .systemGray4), in: RoundedRectangle(cornerRadius: 6))
         }
         .buttonStyle(.plain)
+    }
+}
+
+private struct CandidateBar: View {
+    @ObservedObject var model: KeyboardModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(model.composing).font(.caption).foregroundStyle(.secondary)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 14) {
+                    ForEach(Array(model.candidates.enumerated()), id: \.offset) { _, candidate in
+                        Button(candidate.text) { model.pick(candidate) }
+                            .font(.title3)
+                            .foregroundStyle(.primary)
+                    }
+                }
+            }
+        }
+        .frame(height: 44)
     }
 }

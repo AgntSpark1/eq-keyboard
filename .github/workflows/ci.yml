@@ -30,6 +30,8 @@ jobs:
         working-directory: ios
     steps:
       - uses: actions/checkout@v4
+      - name: Test pinyin engine
+        run: swift test --package-path PinyinKit
       - run: brew install xcodegen
       - run: xcodegen generate
       - name: Build for simulator
