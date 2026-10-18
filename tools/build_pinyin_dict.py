@@ -9,15 +9,21 @@
     解压后运行：
     python3 tools/build_pinyin_dict.py <jieba/dict.txt> <pypinyin 包目录> <输出路径>
 
+tools/chat_words.txt 里的聊天常用词会把词频提到至少 CHAT_MIN_FREQ（jieba 来自新闻语料，
+“你好”“喜欢”这类词偏低，简拼时会被“南海”“先后”压下去）。
+
 输出每行：以空格分隔的无声调拼音<TAB>词<TAB>词频。ü 写作 v。
 """
 
 import json
+from pathlib import Path
 import sys
 import unicodedata
 
 MAX_WORD_LEN = 4
 MAX_WORDS = 120_000
+CHAT_MIN_FREQ = 20_000
+CHAT_WORDS = Path(__file__).with_name("chat_words.txt")
 
 
 def plain(syllable: str) -> str:
@@ -49,6 +55,13 @@ def main(jieba_dict: str, pypinyin_dir: str, out_path: str) -> None:
             parts = line.split()
             if len(parts) >= 2 and is_hanzi(parts[0]) and len(parts[0]) <= MAX_WORD_LEN:
                 freqs[parts[0]] = max(freqs.get(parts[0], 0), int(parts[1]))
+
+    for line in CHAT_WORDS.read_text(encoding="utf-8").splitlines():
+        if line.startswith("#"):
+            continue
+        for word in line.split():
+            if is_hanzi(word) and len(word) <= MAX_WORD_LEN:
+                freqs[word] = max(freqs.get(word, 0), CHAT_MIN_FREQ)
 
     rows: list[tuple[str, str, int]] = []
 

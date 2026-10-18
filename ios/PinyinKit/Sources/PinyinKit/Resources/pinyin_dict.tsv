@@ -478,7 +478,6 @@ ai bo te	艾伯特	37
 ai bo te hu	艾伯特湖	9
 ai bu luo he	埃布罗河	12
 ai bu shi shou	爱不释手	48
-ai chao	爱巢	5
 ai che	爱车	8
 ai cheng	爱称	7
 ai chou	哀愁	56
@@ -487,13 +486,11 @@ ai chun rong	艾春荣	256
 ai ci	挨次	192
 ai ci	哀辞	5
 ai da	挨打	308
-ai da	爱达	5
 ai da he zhou	爱达荷州	11
 ai da ke	埃达克	6
 ai dai	爱戴	185
 ai dao	哀悼	168
 ai de	埃德	10
-ai de	爱德	5
 ai de hua	爱德华	140
 ai de hua duo	爱德华多	8
 ai de hua zi	爱德华兹	30
@@ -579,7 +576,6 @@ ai hu	爱护	436
 ai hu	挨户	7
 ai hua	矮化	27
 ai hui	爱辉	13
-ai hui zhen	爱辉镇	5
 ai ji	埃及	2888
 ai ji wang guo	埃及王国	9
 ai ji zheng fu	埃及政府	13
@@ -661,7 +657,6 @@ ai mei guan xi	暧昧关系	13
 ai men ai hu	挨门挨户	7
 ai mi er	埃米尔	51
 ai mi er	艾米尔	8
-ai mi er	爱弥尔	5
 ai mi li	艾米丽	9
 ai mian zi	爱面子	11
 ai min	爱民	107
@@ -679,6 +674,7 @@ ai nan	碍难	10
 ai nan ying	艾南英	8
 ai nei si	埃内斯	8
 ai neng qi	艾能奇	7
+ai ni	爱你	20000
 ai niao	爱鸟	11
 ai nie a si	埃涅阿斯	5
 ai nv	爱女	90
@@ -698,7 +694,6 @@ ai qin	爱琴	41
 ai qin hai	爱琴海	160
 ai qing	爱情	2606
 ai qing	艾青	28
-ai qing	爱卿	5
 ai qiu	哀求	332
 ai quan	爱犬	6
 ai ren	爱人	145
@@ -748,7 +743,6 @@ ai wu	艾芜	14
 ai wu ji wu	爱屋及乌	28
 ai xi	爱惜	253
 ai xi bao	癌细胞	137
-ai xi yu mao	爱惜羽毛	5
 ai xiao	矮小	327
 ai xiao bei	爱小贝	6
 ai xiao hong	艾小红	32
@@ -2255,9 +2249,9 @@ bai ai xing	白矮星	68
 bai ba	百把	15
 bai ba xiong di	拜把兄弟	7
 bai ba zi	拜把子	31
+bai bai	拜拜	20000
 bai bai	白白	510
 bai bai	摆摆	240
-bai bai	拜拜	37
 bai bai de	白白的	63
 bai bai di	白白地	85
 bai bai er	柏柏尔	118
@@ -3041,7 +3035,6 @@ ban bei zi	半辈子	108
 ban ben	版本	3743
 ban ben	半本	25
 ban ben hao	版本号	21
-ban ben sheng ji	版本升级	5
 ban bi	板壁	124
 ban bi	半壁	32
 ban bi jiang shan	半壁江山	57
@@ -3077,7 +3070,6 @@ ban chuang	半床	7
 ban ci	班次	96
 ban ci	颁赐	43
 ban ci	半次	5
-ban ci	版次	5
 ban cun	半寸	80
 ban cun tou	板寸头	14
 ban da hai	班达海	7
@@ -3592,7 +3584,7 @@ bao bao	宝宝	301
 bao bao	抱抱	73
 bao bao de	薄薄的	198
 bao bao di	薄薄地	10
-bao bei	宝贝	1073
+bao bei	宝贝	20000
 bao bei	包被	43
 bao bei	薄被	31
 bao bei er	宝贝儿	29
@@ -4002,14 +3994,12 @@ bao ping kou	宝瓶口	10
 bao ping zheng	保平争	10
 bao ping zuo	宝瓶座	13
 bao po	爆破	366
-bao po sheng	爆破声	5
 bao po tong	爆破筒	20
-bao po yin	爆破音	5
 bao po zu	爆破组	13
 bao qi	宝器	30
 bao qi	暴弃	16
 bao qi fan	包起帆	6
-bao qian	抱歉	270
+bao qian	抱歉	20000
 bao qian ling	鲍千灵	34
 bao qing	报请	52
 bao qing	宝清	8
@@ -4017,7 +4007,6 @@ bao qing tian	包青天	10
 bao qu	抱屈	15
 bao quan	保全	970
 bao quan	抱拳	291
-bao ran	爆燃	5
 bao ren	保人	33
 bao rong	包容	152
 bao rong xing	包容性	22
@@ -7494,6 +7483,7 @@ bu fang	不妨	1481
 bu fang	布防	76
 bu fang	捕房	15
 bu fang	布放	13
+bu fang bian	不方便	20000
 bu fei	不菲	138
 bu fen	部分	27619
 bu fen	部份	28
@@ -7556,7 +7546,7 @@ bu guang	不光	502
 bu gui	不轨	93
 bu gui ju	不规矩	11
 bu gui ze	不规则	347
-bu guo	不过	17372
+bu guo	不过	20000
 bu guo	补过	50
 bu guo er er	不过尔尔	17
 bu guo jiang	补锅匠	33
@@ -7571,7 +7561,7 @@ bu han hu	不含糊	14
 bu hao	不好	5027
 bu hao guo	不好过	81
 bu hao re	不好惹	32
-bu hao yi si	不好意思	829
+bu hao yi si	不好意思	20000
 bu he	不合	507
 bu he ge pin	不合格品	9
 bu he ge zhe	不合格者	31
@@ -7697,6 +7687,7 @@ bu ke ni xing	不可逆性	31
 bu ke ni zhuan	不可逆转	109
 bu ke pan ding	不可判定	16
 bu ke pian fei	不可偏废	12
+bu ke qi	不客气	20000
 bu ke qi ji	不可企及	14
 bu ke sai	布克赛	9
 bu ke sheng ji	不可胜计	12
@@ -10517,7 +10508,7 @@ chao hu shi	巢湖市	18
 chao huang dou	炒黄豆	5
 chao hui	炒汇	7
 chao huo	炒货	5
-chao ji	超级	790
+chao ji	超级	20000
 chao ji da guo	超级大国	161
 chao ji dan	炒鸡蛋	46
 chao ji hua	超计划	8
@@ -11982,7 +11973,7 @@ chi dun	迟钝	250
 chi duo	褫夺	41
 chi fa	吃法	559
 chi fa xing	迟发性	6
-chi fan	吃饭	3082
+chi fan	吃饭	20000
 chi feng	赤峰	66
 chi feng	齿缝	7
 chi feng li	迟凤利	7
@@ -12041,6 +12032,7 @@ chi ku tou	吃苦头	23
 chi kui	吃亏	282
 chi kui shang dang	吃亏上当	6
 chi lao ben	吃老本	8
+chi le ma	吃了吗	20000
 chi lei	敕勒	11
 chi lei chuan	敕勒川	7
 chi lei ge	敕勒歌	9
@@ -15408,7 +15400,7 @@ da ji ya	达基亚	16
 da ji ya na	达吉亚娜	81
 da ji yue	打击乐	29
 da ji yue qi	打击乐器	54
-da jia	大家	19177
+da jia	大家	20000
 da jia	打架	579
 da jia	打假	152
 da jia	大加	138
@@ -17026,7 +17018,7 @@ dan xiao gui	胆小鬼	76
 dan xiao long	但小龙	16
 dan xiao pa shi	胆小怕事	41
 dan xiao ru shu	胆小如鼠	33
-dan xin	担心	4839
+dan xin	担心	20000
 dan xin	丹心	40
 dan xin	耽心	21
 dan xin pian	单芯片	16
@@ -17218,7 +17210,7 @@ dang quan pai	当权派	71
 dang quan zhe	当权者	82
 dang qun	党群	25
 dang qun guan xi	党群关系	11
-dang ran	当然	12865
+dang ran	当然	20000
 dang ran wu cun	荡然无存	239
 dang re yong cuo	当惹雍错	14
 dang ren	党人	219
@@ -17466,6 +17458,7 @@ dao huo suo	导火索	66
 dao huo xian	导火线	103
 dao ji shi	倒计时	164
 dao ji shi zhong	倒计时钟	5
+dao jia	到家	20000
 dao jia	道家	258
 dao jia	刀架	23
 dao jian	刀剑	474
@@ -18003,6 +17996,7 @@ deng hai	登海	6
 deng hong jiu lv	灯红酒绿	37
 deng hou	等候	1737
 deng hua	灯花	18
+deng hui	等会	20000
 deng hui	灯会	63
 deng huo	灯火	572
 deng huo hui huang	灯火辉煌	38
@@ -19867,7 +19861,7 @@ dian yan	碘盐	61
 dian yan	点烟	25
 dian ye	电业	36
 dian ye	电液	17
-dian ying	电影	4918
+dian ying	电影	20000
 dian ying chang	电影厂	6
 dian ying ji	电影机	6
 dian ying jie	电影节	364
@@ -20856,6 +20850,7 @@ dong lai jie	东莱街	6
 dong lai shun	东来顺	32
 dong lan	东兰	7
 dong lang dang jian	东莨菪碱	14
+dong le	懂了	20000
 dong li	动力	3367
 dong li	东篱	14
 dong li	东丽	11
@@ -22076,7 +22071,7 @@ dui bi du	对比度	28
 dui bi xing	对比性	6
 dui bu	队部	35
 dui bu gong tang	对簿公堂	15
-dui bu qi	对不起	1052
+dui bu qi	对不起	20000
 dui bu shang	对不上	25
 dui bu zhu	对不住	125
 dui ce	对策	833
@@ -22092,6 +22087,7 @@ dui cuo	对错	31
 dui da	对答	225
 dui da ru liu	对答如流	50
 dui dai	对待	1920
+dui de	对的	20000
 dui de qi	对得起	235
 dui di	对敌	446
 dui diao	对调	28
@@ -22464,6 +22460,7 @@ duo han	多汗	39
 duo han zheng	多汗症	13
 duo hao ji bei	多好几倍	5
 duo hao mi	多毫米	24
+duo he shui	多喝水	20000
 duo hu	多户	42
 duo hui	夺回	384
 duo hui er	多会儿	12
@@ -24812,7 +24809,7 @@ fang bao	防暴	22
 fang bao	防雹	7
 fang bao dui	防暴队	8
 fang bei	防备	543
-fang bian	方便	3718
+fang bian	方便	20000
 fang bian chan	方便铲	19
 fang bian kuai jie	方便快捷	17
 fang bian mian	方便面	113
@@ -24976,8 +24973,8 @@ fang ji	方济	6
 fang ji ge	方济各	27
 fang ji xue	方剂学	5
 fang ji yi	房辑佚	9
+fang jia	放假	20000
 fang jia	房价	655
-fang jia	放假	194
 fang jia	方家	89
 fang jian	房间	2489
 fang jian	放箭	166
@@ -25197,7 +25194,7 @@ fang xiao dun	方小顿	256
 fang xiao ru	方孝孺	61
 fang xiao ru	方孝儒	6
 fang xie	放血	44
-fang xin	放心	3856
+fang xin	放心	20000
 fang xin	芳心	76
 fang xin	方信	5
 fang xing	方形	494
@@ -25373,7 +25370,7 @@ fei bu	肺部	186
 fei bu zhang	肺不张	22
 fei cai	飞彩	7
 fei cha	肥差	11
-fei chang	非常	15958
+fei chang	非常	20000
 fei chang gui	非常规	52
 fei chang jian dan	非常简单	6
 fei chang ren	非常任	7
@@ -28497,7 +28494,7 @@ gan jing zi	甘井子	7
 gan ju	柑橘	433
 gan ju	柑桔	46
 gan ju	赣剧	8
-gan jue	感觉	7767
+gan jue	感觉	20000
 gan jue qi guan	感觉器官	60
 gan jue shen jing	感觉神经	22
 gan jun	杆菌	398
@@ -28547,6 +28544,7 @@ gan lu	干禄	16
 gan lu	干路	6
 gan lu chun	甘露醇	18
 gan lu si	甘露寺	15
+gan ma	干嘛	20000
 gan ma	干吗	424
 gan ma	干妈	45
 gan mang	赶忙	627
@@ -28662,7 +28660,7 @@ gan xian wang	干线网	8
 gan xiang	感想	141
 gan xiao	干校	76
 gan xiao	干笑	51
-gan xie	感谢	1710
+gan xie	感谢	20000
 gan xie xin	感谢信	26
 gan xin	甘心	649
 gan xin qing yuan	甘心情愿	23
@@ -28770,7 +28768,7 @@ gang bi zi	钢笔字	6
 gang bi zi yong	刚愎自用	43
 gang bian	钢鞭	101
 gang bu	港埠	107
-gang cai	刚才	5617
+gang cai	刚才	20000
 gang cai	钢材	620
 gang cha	钢叉	88
 gang cha	港汊	48
@@ -34207,9 +34205,9 @@ ha ge si	哈格斯	5
 ha gen	哈根	5
 ha gen da si	哈根达斯	10
 ha gong da	哈工大	66
-ha ha	哈哈	1864
+ha ha	哈哈	20000
 ha ha da xiao	哈哈大笑	1577
-ha ha ha	哈哈哈	221
+ha ha ha	哈哈哈	20000
 ha ha jing	哈哈镜	12
 ha hang	哈航	26
 ha ji	哈吉	17
@@ -34508,6 +34506,7 @@ hai luo yin	海洛因	124
 hai lv shi	海绿石	15
 hai ma	海马	90
 hai man	海鳗	10
+hai mei	还没	20000
 hai men	海门	51
 hai men xian	海门县	7
 hai mi	海米	9
@@ -34579,7 +34578,7 @@ hai shen miao	海神庙	19
 hai shen wei	海参崴	40
 hai sheng	海生	91
 hai sheng	海盛	9
-hai shi	还是	9922
+hai shi	还是	20000
 hai shi	海事	125
 hai shi	海蚀	82
 hai shi	海狮	69
@@ -35352,8 +35351,10 @@ hao	睾	12
 hao	皋	10
 hao	颢	6
 hao	嚆	1
+hao a	好啊	20000
 hao ai guo	郝爱国	49
 hao an	毫安	20
+hao ba	好吧	20000
 hao ba	毫巴	7
 hao ba lian	好八连	5
 hao bai	皓白	9
@@ -35379,7 +35380,7 @@ hao bu zai hu	毫不在乎	53
 hao cai	耗材	56
 hao cao	蒿草	161
 hao cheng	号称	1936
-hao chi	好吃	2799
+hao chi	好吃	20000
 hao chi	皓齿	8
 hao chi hao he	好吃好喝	37
 hao chi lan zuo	好吃懒做	22
@@ -35391,6 +35392,7 @@ hao da tong	郝大通	233
 hao da xi gong	好大喜功	47
 hao dai	好歹	578
 hao dang	浩荡	98
+hao de	好的	20000
 hao dian	耗电	53
 hao dian liang	耗电量	41
 hao dong	好动	64
@@ -35507,7 +35509,7 @@ hao jiu	好久	410
 hao jiu hao jiu	好久好久	48
 hao jiu tan bei	好酒贪杯	7
 hao ju	豪举	8
-hao kan	好看	1113
+hao kan	好看	20000
 hao ke	毫克	644
 hao ke	好客	118
 hao ke	豪客	91
@@ -35607,7 +35609,7 @@ hao ting hua	好听话	12
 hao tong	号筒	131
 hao tou	好头	47
 hao wa	毫瓦	16
-hao wan	好玩	190
+hao wan	好玩	20000
 hao wan er	好玩儿	26
 hao wang jiao	好望角	120
 hao wei ren shi	好为人师	5
@@ -35640,6 +35642,7 @@ hao xing	号型	26
 hao xing	豪兴	16
 hao xing	好性	13
 hao xue	好学	42
+hao ya	好呀	20000
 hao yan	豪言	14
 hao yan hao yu	好言好语	11
 hao yan xiang quan	好言相劝	31
@@ -35962,7 +35965,7 @@ he hao ge	和豪格	7
 he hao jun	和蒿俊	6
 he hao ru chu	和好如初	7
 he hao she	和豪奢	16
-he he	呵呵	119
+he he	呵呵	20000
 he he	赫赫	115
 he he de	赫赫的	21
 he he dong	和河东	5
@@ -36667,7 +36670,7 @@ hei he	黑河	111
 hei he	黑盒	33
 hei he se	黑褐色	107
 hei he shi	黑河市	15
-hei hei	嘿嘿	965
+hei hei	嘿嘿	20000
 hei hei de	黑黑的	40
 hei hong	黑红	160
 hei hu	黑户	17
@@ -40267,7 +40270,7 @@ hui ji wang	会稽王	7
 hui ji xi	会计系	25
 hui ji xue	会计学	78
 hui ji zheng	会计证	8
-hui jia	回家	3197
+hui jia	回家	20000
 hui jia	汇价	109
 hui jia shu nan	毁家纾难	8
 hui jian	会见	1940
@@ -40444,7 +40447,7 @@ hui tong	会通	157
 hui tong	汇通	15
 hui tong kuang	辉铜矿	14
 hui tong xian	会同县	7
-hui tou	回头	3656
+hui tou	回头	20000
 hui tou jian	回头见	33
 hui tou ke	回头客	28
 hui tou lu	回头路	11
@@ -40901,7 +40904,7 @@ huo guan	火罐	28
 huo guang	火光	1016
 huo guang zhu tian	火光烛天	18
 huo gui	货柜	30
-huo guo	火锅	459
+huo guo	火锅	20000
 huo guo dian	火锅店	15
 huo guo yang min	祸国殃民	69
 huo hai	祸害	229
@@ -41186,7 +41189,7 @@ huo zang chang	火葬场	32
 huo ze	或则	32
 huo zeng	获赠	39
 huo zhan	货栈	66
-huo zhe	或者	16633
+huo zhe	或者	20000
 huo zhe	活着	1400
 huo zhe shuo	或者说	753
 huo zhen jia shi	货真价实	116
@@ -41594,7 +41597,7 @@ ji dang	激荡	300
 ji dao	几道	325
 ji dao	击倒	100
 ji dao	几刀	62
-ji de	记得	2545
+ji de	记得	20000
 ji de	基德	139
 ji de	既得	68
 ji de	积德	59
@@ -43445,7 +43448,7 @@ jia lei	甲类	13
 jia lei	加勒	10
 jia lei	迦勒	6
 jia lei bi	加勒比	174
-jia li	家里	6390
+jia li	家里	20000
 jia li	加里	100
 jia li	加力	92
 jia li	嘉里	61
@@ -43782,7 +43785,7 @@ jia ying chun	贾迎春	6
 jia ying ting	贾英廷	128
 jia yong	家用	152
 jia yong dian qi	家用电器	150
-jia you	加油	417
+jia you	加油	20000
 jia you che	加油车	7
 jia you ji	加油机	234
 jia you tian cu	加油添醋	13
@@ -44341,7 +44344,7 @@ jian mei	健美	356
 jian mei	剑眉	28
 jian mei cao	健美操	28
 jian men kun peng	剑门昆鹏	7
-jian mian	见面	2189
+jian mian	见面	20000
 jian mian	减免	294
 jian mian hui	见面会	53
 jian mian li	见面礼	68
@@ -47474,7 +47477,7 @@ jin tang	金堂	13
 jin tang	晋唐	5
 jin teng	近藤	57
 jin ti shi	近体诗	33
-jin tian	今天	15960
+jin tian	今天	20000
 jin tian cun	金田村	17
 jin tian he	金天翮	7
 jin tian hui	金天会	8
@@ -49795,7 +49798,7 @@ jue da bu fen	绝大部分	1101
 jue da duo shu	绝大多数	1322
 jue dai	绝代	18
 jue dai jia ren	绝代佳人	13
-jue de	觉得	15995
+jue de	觉得	20000
 jue di	绝地	99
 jue di	决堤	52
 jue ding	决定	32770
@@ -50251,7 +50254,7 @@ ka er song	卡尔松	6
 ka er wei na	卡尔维纳	5
 ka er wei nuo	卡尔维诺	7
 ka er wen	卡尔文	13
-ka fei	咖啡	1400
+ka fei	咖啡	20000
 ka fei bei	咖啡杯	17
 ka fei dian	咖啡店	28
 ka fei dou	咖啡豆	28
@@ -50734,7 +50737,7 @@ kai xiang	开箱	31
 kai xiao	开销	171
 kai xiao chai	开小差	49
 kai xiao zao	开小灶	7
-kai xin	开心	487
+kai xin	开心	20000
 kai xin guo	开心果	6
 kai xin yan	开心颜	6
 kai xing	开行	110
@@ -51271,7 +51274,7 @@ ke	稞	3
 ke	盍	2
 ke	蚵	1
 ke	骒	1
-ke ai	可爱	989
+ke ai	可爱	20000
 ke ba	科巴	18
 ke ba er	克巴尔	5
 ke ban	刻板	81
@@ -52811,7 +52814,7 @@ kuai jing	块茎	70
 kuai jun	块菌	6
 kuai kuai	快快	597
 kuai kuai le le	快快乐乐	22
-kuai le	快乐	2516
+kuai le	快乐	20000
 kuai lei	块垒	13
 kuai lu ban	蒯鲁班	256
 kuai ma jia bian	快马加鞭	36
@@ -54148,7 +54151,7 @@ lao ba lu	老八路	11
 lao ba shi	老把式	7
 lao bai gan	老白干	6
 lao bai xing	老百姓	2994
-lao ban	老板	4402
+lao ban	老板	20000
 lao ban	老伴	324
 lao ban er	老伴儿	22
 lao ban fa	老办法	11
@@ -54762,6 +54765,7 @@ lei ke lai er	勒克莱尔	19
 lei ke nao	勒克瑙	14
 lei ke si	勒克斯	8
 lei kua	累垮	12
+lei le	累了	20000
 lei lei	累累	164
 lei lei che	勒勒车	7
 lei lei de	累累的	24
@@ -55410,7 +55414,7 @@ li guo wen	李国文	8
 li guo xiang	李国香	181
 li guo xing	李国兴	80
 li guo zhu	李国柱	18
-li hai	厉害	3850
+li hai	厉害	20000
 li hai	利害	1882
 li hai	里海	256
 li hai dao	李海道	5
@@ -56079,7 +56083,7 @@ li wen zhi	李文治	7
 li wen zhong	李文忠	90
 li wo fu	利沃夫	12
 li wo nuo	利沃诺	12
-li wu	礼物	1113
+li wu	礼物	20000
 li wu	里屋	102
 li wu pu	利物浦	278
 li wu shi	利五世	7
@@ -60292,7 +60296,7 @@ lu shan hui yi	庐山会议	96
 lu shan qu	庐山区	15
 lu shan xian	芦山县	8
 lu shan xian	鲁山县	8
-lu shang	路上	2706
+lu shang	路上	20000
 lu shang	陆上	509
 lu she	庐舍	14
 lu she na	卢舍那	7
@@ -61422,8 +61426,8 @@ lv xiang	闾巷	10
 lv xiang ge	吕香阁	31
 lv xiao mei	吕小妹	27
 lv xin	履新	8
+lv xing	旅行	20000
 lv xing	履行	1684
-lv xing	旅行	1131
 lv xing bao	旅行包	28
 lv xing che	旅行车	7
 lv xing dai	旅行袋	19
@@ -61455,7 +61459,7 @@ lv ying	绿营	110
 lv ying ying	绿莹莹	24
 lv ying ying	绿盈盈	8
 lv yong zhi	吕用之	16
-lv you	旅游	16124
+lv you	旅游	20000
 lv you bao	旅游包	5
 lv you bu	旅游部	42
 lv you che	旅游车	25
@@ -62009,7 +62013,7 @@ ma sha	麻纱	40
 ma sha	玛莎	11
 ma shan	马山	66
 ma shan jun	马善均	33
-ma shang	马上	2306
+ma shang	马上	20000
 ma shang zhi	马上治	6
 ma shao	马勺	82
 ma shao er	马绍尔	68
@@ -62664,6 +62668,7 @@ mang liu	盲流	24
 mang long ya	盲聋哑	6
 mang lu	忙碌	623
 mang luan	忙乱	150
+mang ma	忙吗	20000
 mang mang	茫茫	559
 mang mang	莽莽	72
 mang mang cang cang	莽莽苍苍	12
@@ -63099,7 +63104,7 @@ mei gu	每股	683
 mei gu	眉骨	9
 mei guan	美观	299
 mei guan san	梅冠三	11
-mei guan xi	没关系	237
+mei guan xi	没关系	20000
 mei guang deng	镁光灯	16
 mei guang di	梅光迪	31
 mei gui	玫瑰	540
@@ -63191,7 +63196,7 @@ mei kai yan xiao	眉开眼笑	73
 mei ke er	梅克尔	11
 mei ke li	美科利	33
 mei ke lun bao	梅克伦堡	5
-mei kong	没空	79
+mei kong	没空	20000
 mei kuai	每块	225
 mei kuai	煤块	26
 mei kuang	煤矿	933
@@ -63322,8 +63327,8 @@ mei shang mei xia	没上没下	29
 mei shao	眉梢	111
 mei shen me	没什么	2111
 mei sheng	美声	12
+mei shi	没事	20000
 mei shi	美食	1025
-mei shi	没事	516
 mei shi	美式	94
 mei shi	美事	25
 mei shi	梅氏	10
@@ -64856,7 +64861,7 @@ ming ai fen	明爱芬	92
 ming an	命案	34
 ming an	明暗	16
 ming an tu	明安图	10
-ming bai	明白	10875
+ming bai	明白	20000
 ming bai ren	明白人	101
 ming bai zhe	明摆着	185
 ming bao	明报	40
@@ -65146,7 +65151,8 @@ ming tang	明堂	42
 ming te you	名特优	261
 ming te you xin	名特优新	5
 ming ti	命题	1542
-ming tian	明天	3264
+ming tian	明天	20000
+ming tian jian	明天见	20000
 ming tie	名帖	75
 ming ting ba	明廷罢	5
 ming ting ming	明廷命	5
@@ -65777,7 +65783,6 @@ mou mu xi	牟牧希	6
 mou ni tang	牟尼堂	13
 mou nian	某年	68
 mou pian	谋篇	8
-mou qi zhong	牟其中	5
 mou qiu	谋求	496
 mou qu	谋取	185
 mou qu	牟取	75
@@ -65972,7 +65977,6 @@ mu gui ying	穆桂英	30
 mu gun	木棍	313
 mu gun zi	木棍子	11
 mu guo	母国	36
-mu han fu	牧韩馥	5
 mu han mo	穆罕默	9
 mu han mo de	穆罕默德	443
 mu he	木盒	332
@@ -66117,7 +66121,6 @@ mu qu	牧区	315
 mu qu	墓区	24
 mu quan zhi	母权制	13
 mu qun	墓群	67
-mu qun	牧群	5
 mu ran	木然	123
 mu ren	牧人	128
 mu ren qing	穆人清	160
@@ -66304,6 +66307,7 @@ n	嗯	2213
 n	唔	47
 n	哽	7
 n	哏	2
+n n	嗯嗯	20000
 na	那	111550
 na	拿	19956
 na	哪	12138
@@ -66606,7 +66610,7 @@ nai	佴	1
 nai an	萘胺	23
 nai bai cai	奶白菜	5
 nai bo xing	耐波性	8
-nai cha	奶茶	89
+nai cha	奶茶	20000
 nai chong ji	耐冲击	10
 nai chuan	耐穿	10
 nai de	耐得	36
@@ -66823,7 +66827,7 @@ nan guai	难怪	728
 nan guan	难关	269
 nan guan	南关	137
 nan guan qu	南关区	5
-nan guo	难过	691
+nan guo	难过	20000
 nan guo	南国	131
 nan guo xian sheng	南郭先生	6
 nan hai	南海	2087
@@ -66965,7 +66969,7 @@ nan nv xing	男女性	16
 nan ou	南欧	116
 nan pai	男排	131
 nan pan jiang	南盘江	50
-nan peng you	男朋友	326
+nan peng you	男朋友	20000
 nan pi	南皮	21
 nan ping	南平	380
 nan ping	南坪	18
@@ -67639,7 +67643,7 @@ ni gu ding	尼古丁	29
 ni gu la	尼古拉	108
 ni gu la si	尼古拉斯	22
 ni guang	逆光	21
-ni hao	你好	725
+ni hao	你好	20000
 ni he	拟合	43
 ni he	泥河	5
 ni he lu	尼赫鲁	61
@@ -68157,7 +68161,7 @@ nie zi	镊子	53
 nie zu	蹑足	43
 nin	您	14737
 nin	恁	31
-nin hao	您好	112
+nin hao	您好	20000
 nin lao	您老	142
 nin men	您们	20
 ning	年	24855
@@ -68320,7 +68324,6 @@ niu ai jiang	牛爱江	44
 niu ai xiang	牛爱香	129
 niu ba	牛扒	6
 niu bai	扭摆	8
-niu bang	牛蒡	5
 niu bi zi	牛鼻子	124
 niu bian	牛鞭	6
 niu bo rui	纽伯瑞	10
@@ -68370,7 +68373,6 @@ niu jin	牛津	162
 niu jin	牛劲	11
 niu jin	牛金	6
 niu jin da xue	牛津大学	185
-niu jin fang	牛津纺	5
 niu jin jun	牛津郡	8
 niu jin xing	牛金星	841
 niu ju	扭矩	25
@@ -68421,7 +68423,6 @@ niu shi	牛市	248
 niu shou shan	牛首山	7
 niu shu dao	牛书道	72
 niu song	扭送	24
-niu ti	牛蹄	5
 niu tou	扭头	296
 niu tou	牛头	93
 niu tou ma mian	牛头马面	11
@@ -68430,14 +68431,12 @@ niu tui	牛腿	12
 niu tui qin	牛腿琴	6
 niu wa	牛蛙	62
 niu wan cai	牛万才	34
-niu wang wen	牛王闻	5
 niu wei	牛尾	15
 niu wen hai	牛文海	8
 niu wen zhong	钮文忠	28
 niu xi	牛膝	10
 niu xin	牛心	14
 niu xin shan	牛心山	20
-niu ya ke	牛亚科	5
 niu yang	牛羊	51
 niu yang chu	牛羊畜	16
 niu yang ge	扭秧歌	10
@@ -68451,10 +68450,8 @@ niu yue da xue	纽约大学	17
 niu yue gang	纽约港	12
 niu yue shi	纽约市	51
 niu yue zhou	纽约州	87
-niu yun peng	牛允鹏	5
 niu zai	牛仔	94
 niu zai bu	牛仔布	9
-niu zai fu	牛仔服	5
 niu zai ku	牛仔裤	95
 niu zai ma	牛宰马	17
 niu zheng qian	牛正乾	7
@@ -68881,7 +68878,7 @@ nv mao	女帽	5
 nv ni	女尼	70
 nv nu	女奴	67
 nv pai	女排	236
-nv peng you	女朋友	230
+nv peng you	女朋友	20000
 nv ping	女乒	15
 nv pu	女仆	101
 nv qiang	女墙	17
@@ -69132,7 +69129,6 @@ pa ge ni ni	帕格尼尼	17
 pa ge zi	爬格子	16
 pa guo pa guo	帕果帕果	8
 pa hui	扒灰	13
-pa hui	爬灰	5
 pa ji	扒鸡	14
 pa ji	啪唧	7
 pa jia ma	帕加马	7
@@ -69195,7 +69191,6 @@ pa te li	帕特利	7
 pa te li ke	帕特里克	33
 pa te nan	帕特南	14
 pa te sen	帕特森	14
-pa ti	爬梯	5
 pa ti ya	帕提亚	58
 pa tu si	帕图斯	7
 pa wa luo di	帕瓦罗蒂	7
@@ -69400,8 +69395,8 @@ pai you jie nan	排忧解难	65
 pai yuan	派员	107
 pai zhang	排长	632
 pai zhang	拍掌	50
+pai zhao	拍照	20000
 pai zhao	牌照	319
-pai zhao	拍照	246
 pai zhen	排阵	7
 pai zhong lv	排中律	28
 pai zhu	派驻	183
@@ -70227,7 +70222,7 @@ peng wu	棚屋	22
 peng xiang xiang	彭湘湘	62
 peng xiao dao	鹏笑道	11
 peng ying yu	彭莹玉	114
-peng you	朋友	9200
+peng you	朋友	20000
 peng you jia	朋友家	34
 peng yu lin	彭玉麟	5
 peng yuan rui	彭元瑞	5
@@ -70702,7 +70697,6 @@ pian yi	便宜	2013
 pian yi	偏移	35
 pian yi huo	便宜货	16
 pian yuan	偏远	193
-pian yue	片约	5
 pian zai huang	片仔癀	9
 pian zhang	篇章	267
 pian zhang	片长	137
@@ -70714,10 +70708,8 @@ pian zhi	偏执	60
 pian zhi	胼胝	30
 pian zhi	偏置	7
 pian zhi kuang	偏执狂	14
-pian zhi zhi zi	片纸只字	5
 pian zhong	偏重	533
 pian zhong	片中	104
-pian zhong	片种	5
 pian zhou	扁舟	37
 pian zhuan	偏转	103
 pian zhuang	片状	158
@@ -70770,7 +70762,7 @@ piao ju fa	票据法	22
 piao ke	嫖客	66
 piao kuan	票款	13
 piao li	漂砾	8
-piao liang	漂亮	1921
+piao liang	漂亮	20000
 piao liang hua	漂亮话	9
 piao ling	飘零	56
 piao ling	嘌呤	52
@@ -72184,7 +72176,7 @@ qi chuan chuan	气喘喘	16
 qi chuan ru niu	气喘如牛	5
 qi chuan xu xu	气喘吁吁	237
 qi chuan xu xu	气喘嘘嘘	15
-qi chuang	起床	530
+qi chuang	起床	20000
 qi chuang	凄怆	29
 qi chuang	气窗	7
 qi chui	汽锤	9
@@ -72199,7 +72191,7 @@ qi cun	七寸	40
 qi da nei	齐达内	273
 qi da shuai	戚大帅	13
 qi da zhou	七大洲	10
-qi dai	期待	1218
+qi dai	期待	20000
 qi dai	脐带	43
 qi dai	七袋	39
 qi dai	七代	6
@@ -72699,7 +72691,7 @@ qi sheng	气盛	51
 qi sheng	棋圣	30
 qi sheng	七声	25
 qi sheng	欺生	13
-qi shi	其实	11950
+qi shi	其实	20000
 qi shi	气势	1221
 qi shi	骑士	839
 qi shi	其时	764
@@ -74494,6 +74486,7 @@ qin	蓁	1
 qin	螓	1
 qin a yi	秦阿姨	9
 qin ai	亲爱	443
+qin ai de	亲爱的	20000
 qin an	秦安	328
 qin an bei	秦安北	6
 qin an xi fu	秦安媳妇	18
@@ -76746,7 +76739,7 @@ ran fa ji	染发剂	242
 ran fang	染坊	114
 ran fang	燃放	47
 ran gang	染缸	15
-ran hou	然后	16239
+ran hou	然后	20000
 ran ji	燃机	6
 ran jin	燃尽	32
 ran kou	髯口	15
@@ -80796,7 +80789,7 @@ shang ba	伤疤	174
 shang bai	上百	73
 shang bai nian	上百年	8
 shang bai wan	上百万	7
-shang ban	上班	1337
+shang ban	上班	20000
 shang ban	上半	65
 shang ban chang	上半场	857
 shang ban nian	上半年	851
@@ -82967,7 +82960,7 @@ sheng pi ai er	圣皮埃尔	26
 sheng pin	声频	39
 sheng ping	生平	1079
 sheng ping	升平	99
-sheng qi	生气	2416
+sheng qi	生气	20000
 sheng qi	升起	904
 sheng qi	升旗	367
 sheng qi	生漆	79
@@ -83000,8 +82993,9 @@ sheng ren	升任	334
 sheng ren	生人	199
 sheng ren da	省人大	75
 sheng ren yi chou	胜人一筹	10
-sheng ri	生日	1028
+sheng ri	生日	20000
 sheng ri er man	圣日耳曼	13
+sheng ri kuai le	生日快乐	20000
 sheng rou	生肉	28
 sheng ru	升入	135
 sheng ru hong zhong	声如洪钟	20
@@ -83611,6 +83605,7 @@ shi dao lin	史道邻	58
 shi dao lin tou	事到临头	109
 shi dao ren xin	世道人心	10
 shi dao zun yan	师道尊严	6
+shi de	是的	20000
 shi de	似的	4637
 shi de	使得	3483
 shi de	实德	284
@@ -87420,7 +87415,6 @@ shuang xiang	双向	372
 shuang xing	双星	223
 shuang xing	双行	24
 shuang xing	双姓	6
-shuang xing	爽性	5
 shuang xing ji tuan	双星集团	5
 shuang xiu	双袖	14
 shuang xiu mei	双秀眉	5
@@ -87595,7 +87589,7 @@ shui ji	水基	13
 shui ji	水机	6
 shui jia	谁家	361
 shui jia	水价	68
-shui jiao	睡觉	1730
+shui jiao	睡觉	20000
 shui jiao	水饺	41
 shui jiao	水窖	5
 shui jiao di	水浇地	42
@@ -87635,6 +87629,7 @@ shui lai tu yan	水来土掩	22
 shui lang	水浪	10
 shui lao	水牢	12
 shui lao	水涝	11
+shui le ma	睡了吗	20000
 shui le wei	水乐维	6
 shui lei	水雷	314
 shui leng que	水冷却	7
@@ -90697,8 +90692,8 @@ ta ma de	他妈的	850
 ta ma la	塔玛拉	6
 ta ma la	塔马拉	6
 ta men	他们	93969
+ta men	她们	20000
 ta men	它们	12359
-ta men	她们	5966
 ta men	塔门	20
 ta mi	塔米	8
 ta mu	塔姆	13
@@ -92055,7 +92050,7 @@ te	铽	5
 te	忑	4
 te ai sa	特艾萨	6
 te bian	特变	21
-te bie	特别	19119
+te bie	特别	20000
 te bie fa	特别法	11
 te bie jiang	特别奖	67
 te bie qu	特别区	20
@@ -92094,7 +92089,6 @@ te ge si	特格斯	6
 te gong	特工	145
 te hao	特号	7
 te hu	特护	9
-te hua cheng	特化成	5
 te hui	特惠	35
 te hun	特混	16
 te hun jian dui	特混舰队	30
@@ -92105,7 +92099,6 @@ te ji	特急	9
 te jia	特价	81
 te jiao	特教	23
 te jing	特警	19
-te ka meng	特卡蒙	5
 te kan	特刊	38
 te ke	特科	64
 te ke	特克	33
@@ -92143,14 +92136,12 @@ te lei xi ya	特蕾西亚	20
 te li	特里	138
 te li	特例	60
 te li	特力	43
-te li	特利	5
 te li ao	特里奥	18
 te li du xing	特立独行	49
 te li er	特里尔	20
 te li na	特里娜	9
 te li ni	特利尼	13
 te li ni da	特立尼达	54
-te li si	特丽丝	5
 te li si tan	特里斯坦	14
 te li xie	特里谢	8
 te li ya	特里亚	19
@@ -92202,7 +92193,6 @@ te she	特设	73
 te she ling	特赦令	9
 te shi	特使	213
 te shi	特事	14
-te shi tuan	特使团	5
 te shou	特首	16
 te shu	特殊	7015
 te shu gang	特殊钢	21
@@ -92225,7 +92215,6 @@ te xiao	特效	68
 te xiao yao	特效药	31
 te xie	特写	102
 te xing	特性	1946
-te xing	特型	5
 te xu	特许	197
 te xu	特需	18
 te xu quan	特许权	20
@@ -94228,7 +94217,7 @@ tong sheng	童声	13
 tong sheng gong si	同生共死	51
 tong sheng si	同生死	23
 tong shi	同时	30245
-tong shi	同事	2249
+tong shi	同事	20000
 tong shi	通史	391
 tong shi	通式	67
 tong shi	痛失	24
@@ -96173,8 +96162,8 @@ wan	豌	4
 wan	朊	3
 wan	莞	3
 wan ai ke	万艾可	5
+wan an	晚安	20000
 wan an	万安	191
-wan an	晚安	24
 wan an xian	万安县	13
 wan ang si	万盎司	9
 wan ao yuan	万澳元	5
@@ -96233,7 +96222,7 @@ wan dao	弯道	39
 wan dao	晚稻	21
 wan de lai	万德莱	22
 wan di	顽敌	6
-wan dian	晚点	50
+wan dian	晚点	20000
 wan dian	万点	18
 wan die	碗碟	67
 wan ding	万锭	11
@@ -96530,6 +96519,7 @@ wan shan dian	万善殿	18
 wan shang	晚上	5770
 wan shang	腕上	120
 wan shang	玩赏	27
+wan shang hao	晚上好	20000
 wan she	万蛇	5
 wan she shi du	万摄氏度	7
 wan sheng	晚生	176
@@ -97093,6 +97083,7 @@ wang lao hao	王老好	8
 wang lao jiu	王老九	13
 wang lao wu	王老五	31
 wang lao ye	王老爷	34
+wang le	忘了	20000
 wang le quan	王乐泉	6
 wang lei er	王勒尔	7
 wang li	王砾	62
@@ -98265,7 +98256,7 @@ wei shao wang	卫绍王	6
 wei she	威慑	324
 wei she li	威慑力	49
 wei shen	委身	26
-wei shen me	为什么	9561
+wei shen me	为什么	20000
 wei sheng	卫生	4290
 wei sheng	为生	462
 wei sheng	尾声	200
@@ -100215,7 +100206,6 @@ wu li xi	物理系	107
 wu li xing zhi	物理性质	142
 wu li xue	物理学	1181
 wu li xue jia	物理学家	648
-wu li xue jiang	物理学奖	5
 wu li xue jie	物理学界	17
 wu li ya	乌里亚	17
 wu lian	五联	11
@@ -100232,7 +100222,7 @@ wu liang hai	乌梁海	19
 wu liang shan	无量山	47
 wu liang su hai	乌梁素海	11
 wu liang ye	五粮液	163
-wu liao	无聊	524
+wu liao	无聊	20000
 wu liao	物料	171
 wu lie he	武烈河	6
 wu lin	武林	2204
@@ -100325,7 +100315,6 @@ wu ma fen shi	五马分尸	19
 wu mai ye	伍麦叶	8
 wu man	侮慢	19
 wu mang mang	雾茫茫	8
-wu mao	物贸	5
 wu mei	舞美	793
 wu mei	妩媚	206
 wu mei	物美	75
@@ -100501,7 +100490,6 @@ wu qu	无趣	66
 wu quan	无权	250
 wu quan	物权	119
 wu quan	五泉	10
-wu quan fa	物权法	5
 wu quan jie	吴全节	6
 wu quan wu shi	无权无势	19
 wu quan wu yong	无拳无勇	6
@@ -101690,7 +101678,8 @@ xi hua	锡华	77
 xi hua	西画	36
 xi hua ting	西花厅	15
 xi hua xian	西华县	28
-xi huan	喜欢	9783
+xi huan	喜欢	20000
+xi huan ni	喜欢你	20000
 xi huang si	西黄寺	8
 xi huo	熄火	59
 xi huo	喜获	10
@@ -102167,7 +102156,7 @@ xi wa ji	西瓦吉	12
 xi wa li	西瓦利	7
 xi wa si	锡瓦斯	6
 xi wan	膝弯	44
-xi wang	希望	12597
+xi wang	希望	20000
 xi wang	西王	64
 xi wang dong	西往东	10
 xi wang gong cheng	希望工程	57
@@ -102191,6 +102180,7 @@ xi wo tu	西沃图	32
 xi wu	西屋	46
 xi wu	戏侮	12
 xi wu lu	西五路	8
+xi xi	嘻嘻	20000
 xi xi	细细	628
 xi xi	嬉戏	125
 xi xi	洗洗	80
@@ -102430,7 +102420,7 @@ xia ba	下巴	281
 xia ba ke	下巴颏	22
 xia ba ke er	下巴颏儿	11
 xia bai	下摆	81
-xia ban	下班	623
+xia ban	下班	20000
 xia ban chang	下半场	827
 xia ban nian	下半年	838
 xia ban qi	下半旗	7
@@ -102738,6 +102728,7 @@ xia wei yi	夏威夷	312
 xia wei yi zhou	夏威夷州	15
 xia wen	下文	202
 xia wu	下午	4712
+xia wu hao	下午好	20000
 xia xi	罅隙	6
 xia xi qin	夏西秦	7
 xia xia	下辖	1097
@@ -103728,6 +103719,7 @@ xiang jian	乡间	173
 xiang jian	响箭	42
 xiang jian he ji	相煎何急	17
 xiang jian hen wan	相见恨晚	26
+xiang jian ni	想见你	20000
 xiang jian qiang	相建强	12
 xiang jiang	湘江	166
 xiang jiang	香江	27
@@ -103829,6 +103821,7 @@ xiang nai er	香奈尔	9
 xiang nan	湘南	114
 xiang nang	香囊	27
 xiang nei	箱内	63
+xiang ni	想你	20000
 xiang nian	想念	317
 xiang nian	享年	71
 xiang nong	乡农	74
@@ -104411,6 +104404,7 @@ xiao gang pao	小钢炮	214
 xiao ge	校歌	14
 xiao ge	小哥	13
 xiao ge	小格	6
+xiao ge ge	小哥哥	20000
 xiao ge ge	小格格	32
 xiao ge zi	小个子	42
 xiao gong	小工	64
@@ -104547,6 +104541,7 @@ xiao jie	消解	154
 xiao jie	小街	83
 xiao jie	小结	52
 xiao jie	小解	9
+xiao jie jie	小姐姐	20000
 xiao jin	小金	47
 xiao jin	宵禁	28
 xiao jin an	小津安	12
@@ -105476,7 +105471,7 @@ xie xian sheng	谢先生	15
 xie xiang	斜巷	8
 xie xiang zhai	谢香斋	18
 xie xiao	些小	116
-xie xie	谢谢	1089
+xie xie	谢谢	20000
 xie xie	歇歇	221
 xie xie	泄泻	41
 xie xie	写写	32
@@ -105899,7 +105894,7 @@ xin kou ci huang	信口雌黄	32
 xin kou hu yan	信口胡言	8
 xin kou kai he	信口开河	129
 xin kou ru yi	心口如一	6
-xin ku	辛苦	1221
+xin ku	辛苦	20000
 xin ku fei	辛苦费	6
 xin kuai	欣快	11
 xin kuan	新款	84
@@ -106424,6 +106419,7 @@ xing an cha	刑按察	23
 xing an ling	兴安岭	62
 xing an meng	兴安盟	25
 xing an xian	兴安县	24
+xing ba	行吧	20000
 xing ba ke	星巴克	29
 xing ban	兴办	378
 xing bang	兴邦	11
@@ -108797,7 +108793,6 @@ ya che	押车	11
 ya chen	亚琛	16
 ya chen	牙碜	6
 ya cheng	雅称	6
-ya cheng	牙城	5
 ya chi	牙齿	1188
 ya chong	蚜虫	80
 ya chu	压出	20
@@ -109093,7 +109088,6 @@ ya yin	牙龈	108
 ya yin	压印	12
 ya yin su	亚音速	46
 ya you suan	亚油酸	33
-ya you zhi	牙釉质	5
 ya yu	哑语	11
 ya yuan	雅园	17
 ya yuan zi	亚原子	18
@@ -109778,7 +109772,6 @@ yan si qi	颜思齐	6
 yan song	偃松	7
 yan su	严肃	1650
 yan su xing	严肃性	49
-yan su zao	燕肃造	5
 yan suan	盐酸	276
 yan suan	演算	159
 yan suan	烟酸	33
@@ -110861,6 +110854,7 @@ yao bao	药包	31
 yao bi	摇臂	7
 yao bin	姚滨	23
 yao bo dang	姚伯当	17
+yao bu	要不	20000
 yao bu	腰部	170
 yao bu	药补	12
 yao bu de	要不得	32
@@ -112150,7 +112144,7 @@ yi di	乙地	8
 yi di er chu	易地而处	5
 yi di ha	伊蒂哈	40
 yi di ka la	伊迪卡拉	9
-yi dian	一点	14165
+yi dian	一点	20000
 yi dian	疑点	102
 yi dian	医典	22
 yi dian	椅垫	12
@@ -112525,8 +112519,8 @@ yi huan	遗患	8
 yi huang	一晃	488
 yi huang	宜黄	271
 yi huang tong	异黄酮	10
+yi hui	一会	20000
 yi hui	议会	3669
-yi hui	一会	3178
 yi hui	一回	2491
 yi hui	意会	34
 yi hui dang tuan	议会党团	49
@@ -113098,7 +113092,7 @@ yi ping	亿瓶	6
 yi ping er diao	一平二调	18
 yi ping fang mi	一平方米	18
 yi ping fang mi	亿平方米	7
-yi qi	一起	15976
+yi qi	一起	20000
 yi qi	一齐	2769
 yi qi	仪器	1429
 yi qi	一期	641
@@ -113732,7 +113726,7 @@ yi xi lie	一系列	4786
 yi xi shang cun	一息尚存	16
 yi xi si	伊西斯	11
 yi xi zhi di	一席之地	107
-yi xia	一下	13924
+yi xia	一下	20000
 yi xia	以下	7611
 yi xia chuang	一下床	6
 yi xia ding	一下顶	5
@@ -114079,7 +114073,7 @@ yi zheng pian	一整片	5
 yi zheng shi	仪征市	9
 yi zheng tao	一整套	234
 yi zheng tian	一整天	134
-yi zhi	一直	18596
+yi zhi	一直	20000
 yi zhi	一只	6814
 yi zhi	遗址	5882
 yi zhi	一致	5406
@@ -115894,7 +115888,7 @@ you di dai	游地带	6
 you di fang shi	有的放矢	101
 you di shen ru	诱敌深入	57
 you di yuan	邮递员	44
-you dian	有点	3706
+you dian	有点	20000
 you dian	优点	1302
 you dian	邮电	514
 you dian bu	邮电部	57
@@ -116077,7 +116071,7 @@ you ka tan	尤卡坦	35
 you ke	游客	4650
 you ke liang	游客量	28
 you ke yuan	邮科院	256
-you kong	有空	144
+you kong	有空	20000
 you kong chong	有孔虫	29
 you kou jie bei	有口皆碑	33
 you kou nan bian	有口难辩	9
@@ -116248,7 +116242,7 @@ you qing ren	有情人	24
 you qiu	有求	32
 you qiu bi ying	有求必应	34
 you qiu yu	有求于	49
-you qu	有趣	1471
+you qu	有趣	20000
 you qu	油区	71
 you qu er	有趣儿	6
 you qu wu hui	有去无回	46
@@ -118628,7 +118622,7 @@ yue hei feng gao	月黑风高	23
 yue hu	月湖	263
 yue hua	月华	117
 yue hua fei	月话费	9
-yue hui	约会	329
+yue hui	约会	20000
 yue ji	月季	234
 yue ji	越级	40
 yue ji	约计	13
@@ -119250,6 +119244,7 @@ zai er	崽儿	6
 zai er san	再而三	67
 zai fan	再犯	84
 zai fu zhi	宰辅之	10
+zai gan ma	在干嘛	20000
 zai ge	宰割	54
 zai ge zai wu	载歌载舞	96
 zai gen tou	栽跟头	13
@@ -119266,8 +119261,8 @@ zai ji	在籍	29
 zai jia	在家	1016
 zai jia	再嫁	46
 zai jia zhi	再加之	15
+zai jian	再见	20000
 zai jian	在建	444
-zai jian	再见	343
 zai jie nan tao	在劫难逃	33
 zai jie zai li	再接再厉	115
 zai jin yi bu	再进一步	74
@@ -119280,6 +119275,7 @@ zai li er	在理儿	6
 zai liang	载量	14
 zai liu zi	载流子	59
 zai lu	载录	9
+zai ma	在吗	20000
 zai min	灾民	331
 zai ming	载明	33
 zai nan	灾难	1027
@@ -119402,7 +119398,7 @@ zan li	赞礼	85
 zan lia	咱俩	528
 zan mei	赞美	395
 zan mei shi	赞美诗	36
-zan men	咱们	14946
+zan men	咱们	20000
 zan pei	赞佩	17
 zan pu	赞普	43
 zan qie	暂且	517
@@ -119496,7 +119492,7 @@ zao	噪	138
 zao	蚤	93
 zao	窖	80
 zao	唣	18
-zao an	早安	27
+zao an	早安	20000
 zao bai	皂白	8
 zao ban	早班	13
 zao bao	早报	162
@@ -119525,6 +119521,7 @@ zao dao	遭到	4679
 zao dao	早稻	23
 zao dian	早点	371
 zao dian er	早点儿	33
+zao dian xiu xi	早点休息	20000
 zao dong	躁动	53
 zao dong bu an	躁动不安	23
 zao du	早读	9
@@ -119592,6 +119589,7 @@ zao ren bai yan	遭人白眼	6
 zao ri	早日	565
 zao shan yun dong	造山运动	67
 zao shang	早上	1211
+zao shang hao	早上好	20000
 zao shen	灶神	38
 zao sheng	噪声	488
 zao sheng yuan	噪声源	10
@@ -119769,7 +119767,7 @@ zen di	怎地	1625
 zen me	怎么	27339
 zen me ban	怎么办	117
 zen me de le	怎么得了	45
-zen me yang	怎么样	2332
+zen me yang	怎么样	20000
 zen me zhe	怎么着	216
 zen nai	怎奈	78
 zen yang	怎样	7294
@@ -121488,7 +121486,7 @@ zhao ning	昭宁	17
 zhao pai	招牌	293
 zhao pai	照排	13
 zhao pao	罩袍	16
-zhao pian	照片	2305
+zhao pian	照片	20000
 zhao pin	招聘	3885
 zhao pin hui	招聘会	556
 zhao pin zhe	招聘者	40
@@ -121992,7 +121990,7 @@ zhen dang	震荡	456
 zhen dang	振荡	257
 zhen dang qi	振荡器	49
 zhen dao zhen qiang	真刀真枪	42
-zhen de	真的	6277
+zhen de	真的	20000
 zhen de	贞德	45
 zhen di	阵地	1812
 zhen di	真谛	178
@@ -124818,6 +124816,7 @@ zhong wu	重物	99
 zhong wu	中物	19
 zhong wu fan	中午饭	35
 zhong wu gao xin	中钨高新	33
+zhong wu hao	中午好	20000
 zhong wu qi	重武器	32
 zhong xi	中西	330
 zhong xi	中戏	9
@@ -125250,7 +125249,7 @@ zhou man sheng	周满生	5
 zhou mei	皱眉	488
 zhou mei tou	皱眉头	187
 zhou mi	周密	447
-zhou mo	周末	654
+zhou mo	周末	20000
 zhou mo ban	周末版	11
 zhou mu	州牧	60
 zhou mu wang	周穆王	76
@@ -126214,6 +126213,7 @@ zhu yi	竹椅	46
 zhu yi	著译	22
 zhu yi	属意	19
 zhu yi	助益	6
+zhu yi an quan	注意安全	20000
 zhu yi jun	朱翊钧	1029
 zhu yi li	注意力	678
 zhu yi ming	朱翊铭	5
@@ -128656,7 +128656,7 @@ zui jia	最佳	3297
 zui jia yi deng	罪加一等	21
 zui jian	嘴尖	11
 zui jiao	嘴角	788
-zui jin	最近	5355
+zui jin	最近	20000
 zui jiu	醉酒	88
 zui ken ni	嘴啃泥	8
 zui kuai	最快	567
@@ -129040,7 +129040,7 @@ zuo tan	坐探	21
 zuo tan hui	座谈会	1114
 zuo tang	坐堂	43
 zuo teng	佐藤	28
-zuo tian	昨天	4707
+zuo tian	昨天	20000
 zuo tou	做头	11
 zuo tu	作图	61
 zuo tui	左腿	335
