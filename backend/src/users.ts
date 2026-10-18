@@ -1,0 +1,37 @@
+import { randomUUID } from "node:crypto";
+
+export interface User {
+  /** 我们自己的用户 ID，也作为 StoreKit 的 appAccountToken */
+  id: string;
+  appleSub: string;
+  /** 订阅到期时间（毫秒时间戳），没有订阅为 undefined */
+  subscriptionExpiresAt?: number;
+}
+
+// MVP 用内存存储；上线前换成数据库。
+export class UserStore {
+  private byId = new Map<string, User>();
+  private byAppleSub = new Map<string, User>();
+
+  findOrCreateByAppleSub(appleSub: string): User {
+    const existing = this.byAppleSub.get(appleSub);
+    if (existing) return existing;
+    const user: User = { id: randomUUID(), appleSub };
+    this.byId.set(user.id, user);
+    this.byAppleSub.set(appleSub, user);
+    return user;
+  }
+
+  get(id: string): User | undefined {
+    return this.byId.get(id);
+  }
+
+  setSubscription(id: string, expiresAt: number | undefined): void {
+    const user = this.byId.get(id);
+    if (user) user.subscriptionExpiresAt = expiresAt;
+  }
+
+  isSubscribed(user: User | undefined, now = Date.now()): boolean {
+    return !!user?.subscriptionExpiresAt && user.subscriptionExpiresAt > now;
+  }
+}

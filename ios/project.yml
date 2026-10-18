@@ -32,6 +32,7 @@ targets:
       path: App/EQKeyboard.entitlements
       properties:
         com.apple.security.application-groups: [group.com.example.eqkeyboard]
+        com.apple.developer.applesignin: [Default]
     dependencies:
       - target: EQKeyboardExtension
   EQKeyboardExtension:
