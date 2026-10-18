@@ -21,6 +21,18 @@ final class SharedStore {
         return id
     }
 
+    /// Apple 登录后后端发的会话令牌，键盘用它享受订阅额度
+    var sessionToken: String? {
+        get { defaults.string(forKey: "sessionToken") }
+        set { defaults.set(newValue, forKey: "sessionToken") }
+    }
+
+    /// 后端用户 ID，同时作为 StoreKit 的 appAccountToken 把购买绑定到账号
+    var userId: String? {
+        get { defaults.string(forKey: "userId") }
+        set { defaults.set(newValue, forKey: "userId") }
+    }
+
     /// 主 App 从截图识别出的对话，键盘读取后使用
     var importedConversation: [ChatTurn] {
         get { decode([ChatTurn].self, key: "importedConversation") ?? [] }

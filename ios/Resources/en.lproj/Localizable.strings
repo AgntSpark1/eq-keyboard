@@ -40,3 +40,17 @@
 "error.quota" = "You've used today's free replies.";
 "error.refused" = "That one isn't something I can help with. Try saying it another way.";
 "error.server" = "Something went wrong. Please try again.";
+"tab.account" = "Pro";
+"account.title" = "Account";
+"account.why" = "Sign in with Apple to subscribe and get many more replies each day. We only receive an anonymous ID, never your email.";
+"account.signInFailed" = "Sign-in didn't work. Please try again.";
+"account.signInFirst" = "Please sign in with Apple first.";
+"account.pending" = "Your purchase is waiting for approval and will activate automatically.";
+"account.subscribed" = "Pro is active until";
+"account.free" = "Free plan";
+"account.remaining" = "%d replies left today";
+"account.plans" = "Go Pro";
+"account.noProducts" = "Prices aren't available right now. Please try again later.";
+"account.terms" = "Subscriptions renew automatically. Cancel anytime in Settings > Apple ID > Subscriptions.";
+"account.restore" = "Restore purchases";
+"account.signOut" = "Sign out";

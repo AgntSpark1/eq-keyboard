@@ -40,3 +40,17 @@
 "error.quota" = "今天的免费次数用完了。";
 "error.refused" = "这条内容不太合适，换个说法试试。";
 "error.server" = "网络开小差了，请稍后再试。";
+"tab.account" = "会员";
+"account.title" = "账号与会员";
+"account.why" = "用 Apple 账号登录后可以开通会员，每天的生成次数会大幅提高。我们只拿到一个匿名 ID，不会拿到你的邮箱。";
+"account.signInFailed" = "登录没成功，请再试一次。";
+"account.signInFirst" = "请先用 Apple 账号登录。";
+"account.pending" = "购买等待确认中，确认后会自动生效。";
+"account.subscribed" = "会员已开通，有效期至";
+"account.free" = "免费版";
+"account.remaining" = "今天还剩 %d 次";
+"account.plans" = "开通会员";
+"account.noProducts" = "暂时无法获取会员价格，请稍后再试。";
+"account.terms" = "订阅会自动续费，可随时在 设置 > Apple ID > 订阅 中取消。";
+"account.restore" = "恢复购买";
+"account.signOut" = "退出登录";

@@ -63,8 +63,15 @@ open EQKeyboard.xcodeproj
 
 `ios/PinyinKit/Sources/PinyinKit/Resources/pinyin_dict.tsv` 由 `tools/build_pinyin_dict.py` 生成，词语和词频来自 [jieba](https://github.com/fxsjy/jieba) 0.42.1，读音来自 [pypinyin](https://github.com/mozillazg/python-pinyin) 0.55.0，两者均为 MIT 许可。只收 GB2312 范围内的简体字，多字词按词频取前 12 万条。
 
+## 登录与订阅
+
+- App 的“会员”页用 Sign in with Apple 登录，后端校验 Apple 的 identityToken 后发自己的会话令牌，键盘通过 App Group 共用它。
+- 订阅用 StoreKit 2。购买时把后端用户 ID 作为 appAccountToken，App 把交易 JWS 发到 `/v1/subscription/verify`，后端用 Apple 根证书验签后提高每日额度。
+- 续费、退款等由 App Store Server Notifications V2 推到 `/v1/appstore/notifications`，在 App Store Connect 里把通知地址设成这个接口。
+- 上线前需要：在 App Store Connect 创建订阅商品（默认 `eqkeyboard.pro.monthly`、`eqkeyboard.pro.yearly`），为 App ID 打开 Sign in with Apple，后端配置 `SESSION_SECRET`、`APPLE_ROOT_CERT_PATHS`、`APP_APPLE_ID`（见 `.env.example`）。
+
 ## 尚未完成
 
 - 拼音输入的进阶能力：简拼（如 nh → 你好）、整句联想、模糊音、用户词频学习。
-- 登录与订阅：后端用设备 ID 计算每日额度（内存存储），上线前换成 Apple 登录、StoreKit 订阅和 Redis。
+- 存储：用户、订阅和额度目前存在内存里，重启会丢，上线前换成数据库和 Redis。
 - Android 输入法、语气学习、分寸引擎、发送前检查（第二阶段）。
