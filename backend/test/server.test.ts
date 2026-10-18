@@ -53,6 +53,8 @@ describe("POST /v1/replies", () => {
     expect((await app.inject({ method: "POST", url: "/v1/replies", payload: body })).statusCode).toBe(401);
     const bad = await app.inject({ method: "POST", url: "/v1/replies", headers, payload: { mode: "polish", conversation: body.conversation } });
     expect(bad.statusCode).toBe(400);
+    const noDraft = await app.inject({ method: "POST", url: "/v1/replies", headers, payload: { mode: "check", conversation: body.conversation } });
+    expect(noDraft.statusCode).toBe(400);
   });
 
   it("returns 429 once the daily quota is used up", async () => {

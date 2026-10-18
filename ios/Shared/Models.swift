@@ -39,6 +39,7 @@ struct TonePreferences: Codable, Equatable {
 enum ReplyMode: String, Codable {
     case reply
     case polish
+    case check
 }
 
 struct ReplyRequest: Encodable {
@@ -56,14 +57,26 @@ struct ReplySuggestion: Decodable, Identifiable {
     let why: String
 }
 
+/// 发送前检查的结论：good 可以直接发，adjust 建议改一改，risky 发出去可能让对方不舒服
+struct DraftCheck: Decodable, Equatable {
+    enum Verdict: String, Decodable {
+        case good, adjust, risky
+    }
+
+    let verdict: Verdict
+    let note: String
+}
+
 struct ReplySuggestions: Decodable {
     let replyLanguage: String
     let replies: [ReplySuggestion]
+    let check: DraftCheck?
     let quotaRemaining: Int?
 
     private enum CodingKeys: String, CodingKey {
         case replyLanguage = "reply_language"
         case replies
+        case check
         case quotaRemaining = "quota_remaining"
     }
 }

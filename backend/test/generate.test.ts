@@ -44,6 +44,44 @@ describe("createGenerator", () => {
     expect(create.mock.calls[0][0]).not.toHaveProperty("betas");
   });
 
+  it("returns the check verdict and drops alternatives for a good draft", async () => {
+    const checkRequest = { ...request, mode: "check" as const, draft: "好呀，周六见" };
+    const good = fakeClient({
+      stop_reason: "end_turn",
+      content: [{ type: "text", text: JSON.stringify({
+        reply_language: "zh",
+        check: { verdict: "good", note: "语气自然，可以直接发。" },
+        replies: [{ text: "好呀", why: "更短" }],
+      }) }],
+    });
+    const result = await createGenerator(good.client, loadConfig({}))(checkRequest);
+    expect(result.check).toEqual({ verdict: "good", note: "语气自然，可以直接发。" });
+    expect(result.replies).toEqual([]);
+    expect(good.create.mock.calls[0][0].output_config.format.schema.required).toContain("check");
+
+    const risky = fakeClient({
+      stop_reason: "end_turn",
+      content: [{ type: "text", text: JSON.stringify({
+        reply_language: "zh",
+        check: { verdict: "risky", note: "像在质问。" },
+        replies: [1, 2, 3].map((i) => ({ text: `改法 ${i}`, why: "更轻松" })),
+      }) }],
+    });
+    const riskyResult = await createGenerator(risky.client, loadConfig({}))(checkRequest);
+    expect(riskyResult.check?.verdict).toBe("risky");
+    expect(riskyResult.replies).toHaveLength(2);
+  });
+
+  it("rejects check output without a verdict", async () => {
+    const { client } = fakeClient({
+      stop_reason: "end_turn",
+      content: [{ type: "text", text: '{"reply_language":"zh","replies":[]}' }],
+    });
+    await expect(
+      createGenerator(client, loadConfig({}))({ ...request, mode: "check", draft: "在吗" }),
+    ).rejects.toBeInstanceOf(BadModelOutputError);
+  });
+
   it("raises RefusedError on a refusal", async () => {
     const { client } = fakeClient({ stop_reason: "refusal", stop_details: { category: null }, content: [] });
     await expect(createGenerator(client, loadConfig({}))(request)).rejects.toBeInstanceOf(RefusedError);

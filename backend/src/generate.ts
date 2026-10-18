@@ -2,6 +2,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import type { Config } from "./config.js";
 import { buildUserMessage, SYSTEM_PROMPT } from "./prompt.js";
 import {
+  CHECK_OUTPUT_JSON_SCHEMA,
+  CheckResultSchema,
   REPLY_OUTPUT_JSON_SCHEMA,
   ReplySuggestionsSchema,
   type ReplyRequest,
@@ -19,6 +21,7 @@ export function createClient(config: Config): Anthropic {
 
 export function createGenerator(client: Anthropic, config: Config): Generator {
   return async (req) => {
+    const check = req.mode === "check";
     const response = await client.beta.messages.create({
       model: config.model,
       // 留出空间给推理，正常回复只有几百 token
@@ -27,7 +30,7 @@ export function createGenerator(client: Anthropic, config: Config): Generator {
       messages: [{ role: "user", content: buildUserMessage(req) }],
       output_config: {
         effort: config.effort,
-        format: { type: "json_schema", schema: REPLY_OUTPUT_JSON_SCHEMA },
+        format: { type: "json_schema", schema: check ? CHECK_OUTPUT_JSON_SCHEMA : REPLY_OUTPUT_JSON_SCHEMA },
       },
       ...(config.serverFallback
         ? { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" as const }
@@ -49,6 +52,12 @@ export function createGenerator(client: Anthropic, config: Config): Generator {
       parsed = JSON.parse(text);
     } catch {
       throw new BadModelOutputError("model did not return JSON");
+    }
+    if (check) {
+      const result = CheckResultSchema.safeParse(parsed);
+      if (!result.success) throw new BadModelOutputError(result.error.message);
+      const replies = result.data.check.verdict === "good" ? [] : result.data.replies.slice(0, 2);
+      return { ...result.data, replies };
     }
     const result = ReplySuggestionsSchema.safeParse(parsed);
     if (!result.success) throw new BadModelOutputError(result.error.message);

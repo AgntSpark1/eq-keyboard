@@ -28,11 +28,15 @@
 "stage.relationship" = "Together";
 "keyboard.reply" = "Reply for me";
 "keyboard.polish" = "Polish mine";
+"keyboard.check" = "Check";
+"check.good" = "Good to send";
+"check.adjust" = "Could be better";
+"check.risky" = "Hold on";
 "keyboard.back" = "Back";
 "keyboard.space" = "space";
 "keyboard.needFullAccess" = "Turn on Allow Full Access for EQ Keyboard in Settings first.";
 "keyboard.noConversation" = "Copy their message first, or import a chat screenshot in the app.";
-"keyboard.noDraft" = "Type what you want to say first, then tap Polish mine.";
+"keyboard.noDraft" = "Type what you want to say first, then tap Polish mine or Check.";
 "tone.humor" = "Funny";
 "tone.warm" = "Warm";
 "tone.direct" = "Direct";

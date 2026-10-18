@@ -28,11 +28,15 @@
 "stage.relationship" = "已在一起";
 "keyboard.reply" = "帮我回";
 "keyboard.polish" = "帮我改";
+"keyboard.check" = "发前看看";
+"check.good" = "可以直接发";
+"check.adjust" = "建议改一改";
+"check.risky" = "先别急着发";
 "keyboard.back" = "返回";
 "keyboard.space" = "空格";
 "keyboard.needFullAccess" = "请先在设置中为 EQ Keyboard 打开“允许完全访问”。";
 "keyboard.noConversation" = "先复制对方的消息，或在 App 里导入聊天截图。";
-"keyboard.noDraft" = "先在输入框里写下你想说的话，再点“帮我改”。";
+"keyboard.noDraft" = "先在输入框里写下你想说的话，再点“帮我改”或“发前看看”。";
 "tone.humor" = "幽默";
 "tone.warm" = "温柔";
 "tone.direct" = "直接";
