@@ -2,7 +2,7 @@ import { createLocalJWKSet, exportJWK, generateKeyPair, SignJWT } from "jose";
 import { describe, expect, it } from "vitest";
 import { createAppleTokenVerifier, Sessions } from "../src/auth.js";
 
-const BUNDLE = "com.example.eqkeyboard.EQKeyboard";
+const BUNDLE = "com.example.eqkeyboard";
 
 async function appleFixture() {
   const { publicKey, privateKey } = await generateKeyPair("RS256");

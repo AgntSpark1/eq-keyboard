@@ -60,6 +60,20 @@ open EQKeyboard.xcodeproj
 
 在 `project.yml` 中填写 `DEVELOPMENT_TEAM`、把 `bundleIdPrefix` 和 App Group（`group.com.example.eqkeyboard`，在 `project.yml` 与 `Shared/SharedStore.swift` 中）改成你自己的，并把 `EQ_API_BASE_URL` 指向后端。
 
+## 用 TestFlight 在手机上安装
+
+不需要 Mac：`.github/workflows/testflight.yml` 在云端签名、打包并上传到 TestFlight，每次 main 上的 iOS 代码有改动都会自动出新版本，也可以在 GitHub 的 Actions 页面手动运行。
+
+一次性准备（都能在手机浏览器里完成）：
+
+1. 在 App Store Connect 里新建 App，Bundle ID 与下面的 `EQ_BUNDLE_ID` 一致（键盘扩展会自动用 `<Bundle ID>.keyboard`）。
+2. 在 App Store Connect 的“用户和访问 > 集成 > App Store Connect API”里生成一个“App 管理”权限的密钥，记下 Issuer ID、Key ID，并下载 .p8 文件（只能下载一次）。
+3. 在 GitHub 仓库 Settings > Secrets and variables > Actions 里添加：
+   - Variables：`APPLE_TEAM_ID`、`EQ_BUNDLE_ID`、`EQ_API_BASE_URL`（部署好的后端地址）
+   - Secrets：`ASC_KEY_ID`、`ASC_ISSUER_ID`、`ASC_PRIVATE_KEY`（.p8 文件的全部文字）
+
+后端的 `APPLE_BUNDLE_ID` 要和 `EQ_BUNDLE_ID` 相同。
+
 ## 拼音词库
 
 `ios/PinyinKit/Sources/PinyinKit/Resources/pinyin_dict.tsv` 由 `tools/build_pinyin_dict.py` 生成，词语和词频来自 [jieba](https://github.com/fxsjy/jieba) 0.42.1，读音来自 [pypinyin](https://github.com/mozillazg/python-pinyin) 0.55.0，两者均为 MIT 许可。只收 GB2312 范围内的简体字，多字词按词频取前 12 万条。

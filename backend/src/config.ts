@@ -40,7 +40,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     subscriberDailyQuota: Number(env.SUBSCRIBER_DAILY_QUOTA ?? 300),
     port: Number(env.PORT ?? 8787),
     apple: {
-      bundleId: env.APPLE_BUNDLE_ID || "com.example.eqkeyboard.EQKeyboard",
+      bundleId: env.APPLE_BUNDLE_ID || "com.example.eqkeyboard",
       appAppleId: env.APP_APPLE_ID ? Number(env.APP_APPLE_ID) : undefined,
       environment: env.APPSTORE_ENVIRONMENT === "Production" ? "Production" : "Sandbox",
       rootCertPaths: list(env.APPLE_ROOT_CERT_PATHS),

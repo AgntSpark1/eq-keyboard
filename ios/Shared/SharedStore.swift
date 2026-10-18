@@ -3,7 +3,8 @@ import Foundation
 /// App 与键盘扩展通过 App Group 共享的数据，全部只存在本机。
 final class SharedStore {
     static let shared = SharedStore()
-    static let appGroup = "group.com.example.eqkeyboard"
+    /// 由构建设置 EQ_BUNDLE_ID 生成，写在 Info.plist 的 EQAppGroup
+    static let appGroup = Bundle.main.object(forInfoDictionaryKey: "EQAppGroup") as? String ?? "group.com.example.eqkeyboard"
 
     private let defaults: UserDefaults
     private let encoder = JSONEncoder()
