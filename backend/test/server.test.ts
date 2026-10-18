@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import { Sessions } from "../src/auth.js";
 import { RefusedError, type Generator } from "../src/generate.js";
-import { DailyQuota } from "../src/quota.js";
+import { MemoryQuota } from "../src/quota.js";
 import { buildServer, type ServerDeps } from "../src/server.js";
 import type { AppStoreVerifier, TransactionInfo } from "../src/subscriptions.js";
-import { UserStore } from "../src/users.js";
+import { isSubscribed, MemoryUserStore } from "../src/users.js";
 
 const body = {
   mode: "reply",
@@ -17,8 +17,8 @@ const PRODUCTS = ["eqkeyboard.pro.monthly"];
 function setup(overrides: Partial<ServerDeps> = {}) {
   const deps: ServerDeps = {
     generate: vi.fn<Generator>().mockResolvedValue(ok),
-    quota: new DailyQuota(),
-    users: new UserStore(),
+    quota: new MemoryQuota(),
+    users: new MemoryUserStore(),
     limits: { free: 2, subscriber: 5 },
     sessions: new Sessions("s".repeat(32)),
     verifyAppleToken: async (token) => {
@@ -123,9 +123,9 @@ describe("Sign in with Apple and subscriptions", () => {
     const session = await signIn(app);
     tx = { productId: PRODUCTS[0], appAccountToken: session.userId, expiresDate: Date.now() + 86_400_000 };
     await app.inject({ method: "POST", url: "/v1/appstore/notifications", payload: { signedPayload: "p" } });
-    expect(deps.users.isSubscribed(deps.users.get(session.userId))).toBe(true);
+    expect(isSubscribed(await deps.users.get(session.userId))).toBe(true);
     tx = { ...tx, revocationDate: Date.now() };
     await app.inject({ method: "POST", url: "/v1/appstore/notifications", payload: { signedPayload: "p" } });
-    expect(deps.users.isSubscribed(deps.users.get(session.userId))).toBe(false);
+    expect(isSubscribed(await deps.users.get(session.userId))).toBe(false);
   });
 });

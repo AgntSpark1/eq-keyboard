@@ -18,6 +18,8 @@ export interface Config {
     subscriptionProductIds: string[];
   };
   sessionSecret: string | undefined;
+  /** Postgres 连接串；留空时用内存存储，重启会丢数据 */
+  databaseUrl?: string;
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
@@ -47,5 +49,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
       ),
     },
     sessionSecret: env.SESSION_SECRET || undefined,
+    databaseUrl: env.DATABASE_URL || undefined,
   };
 }

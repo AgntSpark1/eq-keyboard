@@ -8,30 +8,37 @@ export interface User {
   subscriptionExpiresAt?: number;
 }
 
-// MVP 用内存存储；上线前换成数据库。
-export class UserStore {
+export interface UserStore {
+  findOrCreateByAppleSub(appleSub: string): Promise<User>;
+  get(id: string): Promise<User | undefined>;
+  setSubscription(id: string, expiresAt: number | undefined): Promise<void>;
+}
+
+export function isSubscribed(user: User | undefined, now = Date.now()): boolean {
+  return !!user?.subscriptionExpiresAt && user.subscriptionExpiresAt > now;
+}
+
+/** 本地开发和测试用；生产配置 DATABASE_URL 后改用 Postgres。 */
+export class MemoryUserStore implements UserStore {
   private byId = new Map<string, User>();
   private byAppleSub = new Map<string, User>();
 
-  findOrCreateByAppleSub(appleSub: string): User {
+  async findOrCreateByAppleSub(appleSub: string): Promise<User> {
     const existing = this.byAppleSub.get(appleSub);
-    if (existing) return existing;
+    if (existing) return { ...existing };
     const user: User = { id: randomUUID(), appleSub };
     this.byId.set(user.id, user);
     this.byAppleSub.set(appleSub, user);
-    return user;
+    return { ...user };
   }
 
-  get(id: string): User | undefined {
-    return this.byId.get(id);
+  async get(id: string): Promise<User | undefined> {
+    const user = this.byId.get(id);
+    return user && { ...user };
   }
 
-  setSubscription(id: string, expiresAt: number | undefined): void {
+  async setSubscription(id: string, expiresAt: number | undefined): Promise<void> {
     const user = this.byId.get(id);
     if (user) user.subscriptionExpiresAt = expiresAt;
-  }
-
-  isSubscribed(user: User | undefined, now = Date.now()): boolean {
-    return !!user?.subscriptionExpiresAt && user.subscriptionExpiresAt > now;
   }
 }
