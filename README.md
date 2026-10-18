@@ -58,7 +58,7 @@ xcodegen generate
 open EQKeyboard.xcodeproj
 ```
 
-Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘是 `.keyboard`，App Group 是 `group.com.yonghuizhang.eqkeyboard`）都在 `project.yml` 里，`EQ_API_BASE_URL` 指向后端。
+Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘是 `.keyboard`，两者通过钥匙串共享组 `2U62224FHB.com.yonghuizhang.eqkeyboard.shared` 共享数据，不需要在开发者网站上手动注册 App Group）都在 `project.yml` 里，`EQ_API_BASE_URL` 指向后端。
 
 ## 用 TestFlight 在手机上安装
 
@@ -68,7 +68,7 @@ Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘�
 
 1. 在 App Store Connect 的“用户和访问 > 集成 > App Store Connect API”里生成一个“App 管理”权限的团队密钥，记下 Issuer ID、密钥 ID，并下载 .p8 文件（只能下载一次）。
 2. 在 GitHub 仓库 Settings > Secrets and variables > Actions 里添加 Secrets：`ASC_KEY_ID`、`ASC_ISSUER_ID`、`ASC_PRIVATE_KEY`（.p8 文件的全部文字）。后端部署好后再加 Variable `EQ_API_BASE_URL`。
-3. 在 Actions 页面手动运行一次 TestFlight。这一次会自动注册 Bundle ID 和 App Group，但因为还没有 App，上传会失败，属于正常。
+3. 在 Actions 页面手动运行一次 TestFlight。这一次会自动注册 Bundle ID，但因为还没有 App，上传会失败，属于正常。
 4. 在 App Store Connect 新建 App，Bundle ID 选 `com.yonghuizhang.eqkeyboard`，然后再运行一次，就会出现在 TestFlight 里。
 
 后端的 `APPLE_BUNDLE_ID` 要和 `EQ_BUNDLE_ID` 相同。
@@ -79,7 +79,7 @@ Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘�
 
 ## 登录与订阅
 
-- App 的“会员”页用 Sign in with Apple 登录，后端校验 Apple 的 identityToken 后发自己的会话令牌，键盘通过 App Group 共用它。
+- App 的“会员”页用 Sign in with Apple 登录，后端校验 Apple 的 identityToken 后发自己的会话令牌，键盘通过共享钥匙串共用它。
 - 订阅用 StoreKit 2。购买时把后端用户 ID 作为 appAccountToken，App 把交易 JWS 发到 `/v1/subscription/verify`，后端用 Apple 根证书验签后提高每日额度。
 - 续费、退款等由 App Store Server Notifications V2 推到 `/v1/appstore/notifications`，在 App Store Connect 里把通知地址设成这个接口。
 - 上线前需要：在 App Store Connect 创建订阅商品（默认 `eqkeyboard.pro.monthly`、`eqkeyboard.pro.yearly`），为 App ID 打开 Sign in with Apple，后端配置 `SESSION_SECRET`、`APPLE_ROOT_CERT_PATHS`、`APP_APPLE_ID`（见 `.env.example`）。

@@ -11,7 +11,7 @@ settings:
   base:
     SWIFT_VERSION: "5.10"
     DEVELOPMENT_TEAM: 2U62224FHB
-    # App 的 Bundle ID；键盘是 <Bundle ID>.keyboard，App Group 是 group.<Bundle ID>
+    # App 的 Bundle ID；键盘是 <Bundle ID>.keyboard，两者通过钥匙串共享组 <TeamID>.<Bundle ID>.shared 共享数据
     EQ_BUNDLE_ID: com.yonghuizhang.eqkeyboard
     CURRENT_PROJECT_VERSION: "1"
     MARKETING_VERSION: "0.1.0"
@@ -37,13 +37,13 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
         UILaunchScreen: {}
-        EQAppGroup: group.$(EQ_BUNDLE_ID)
+        EQKeychainGroup: $(AppIdentifierPrefix)$(EQ_BUNDLE_ID).shared
         EQAPIBaseURL: $(EQ_API_BASE_URL)
         NSPhotoLibraryUsageDescription: Import chat screenshots. Text is recognized on your phone and the image is never uploaded.
     entitlements:
       path: App/EQKeyboard.entitlements
       properties:
-        com.apple.security.application-groups: [group.$(EQ_BUNDLE_ID)]
+        keychain-access-groups: [$(AppIdentifierPrefix)$(EQ_BUNDLE_ID).shared]
         com.apple.developer.applesignin: [Default]
     dependencies:
       - target: EQKeyboardExtension
@@ -65,7 +65,7 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         EQAPIBaseURL: $(EQ_API_BASE_URL)
-        EQAppGroup: group.$(EQ_BUNDLE_ID)
+        EQKeychainGroup: $(AppIdentifierPrefix)$(EQ_BUNDLE_ID).shared
         NSExtension:
           NSExtensionPointIdentifier: com.apple.keyboard-service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
@@ -80,4 +80,4 @@ targets:
     entitlements:
       path: KeyboardExtension/EQKeyboardExtension.entitlements
       properties:
-        com.apple.security.application-groups: [group.$(EQ_BUNDLE_ID)]
+        keychain-access-groups: [$(AppIdentifierPrefix)$(EQ_BUNDLE_ID).shared]
