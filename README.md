@@ -7,7 +7,7 @@
 | 目录 | 内容 |
 | --- | --- |
 | `backend/` | Node + TypeScript 后端：校验请求、每日额度、组装提示词、经可配置的中转 API 调用 Claude，返回 3 条回复和解释 |
-| `ios/` | iOS 主 App（开启引导、截图导入与端侧识别、对方档案）和键盘扩展（拼音输入、帮我回、帮我改、语气开关） |
+| `ios/` | iOS 主 App（开启引导、截图导入与端侧识别、对方档案）和键盘扩展（拼音输入、帮我回、帮我改、发前看看、语气开关） |
 | `ios/PinyinKit/` | 全拼输入引擎与约 13 万条简体词库（Swift Package，可单独 `swift test`） |
 | `tools/` | 词库生成脚本 |
 
@@ -35,7 +35,7 @@ npm test
 }
 ```
 
-回复语言跟随对方最后一条消息，解释文字使用 `uiLanguage`。`mode` 为 `polish` 时需带 `draft`。
+回复语言跟随对方最后一条消息，解释文字使用 `uiLanguage`。`mode` 为 `polish`（帮我改）或 `check`（发前看看）时需带 `draft`。`check` 模式额外返回 `check: { verdict: "good" | "adjust" | "risky", note }`，verdict 为 good 时 `replies` 为空，否则给 1 到 2 个改法。
 
 配置说明：
 
@@ -89,4 +89,4 @@ Team ID（`2U62224FHB`）和 Bundle ID（`com.yonghuizhang.eqkeyboard`，键盘�
 ## 尚未完成
 
 - 拼音输入的进阶能力：整句联想、模糊音、用户词频学习。
-- Android 输入法、语气学习、分寸引擎、发送前检查（第二阶段）。
+- Android 输入法、语气学习、分寸引擎（第二阶段）。

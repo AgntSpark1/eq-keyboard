@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const ReplyRequestSchema = z
   .object({
-    mode: z.enum(["reply", "polish"]),
+    mode: z.enum(["reply", "polish", "check"]),
     conversation: z
       .array(
         z.object({
@@ -31,8 +31,8 @@ export const ReplyRequestSchema = z
       .optional(),
     uiLanguage: z.string().min(2).max(16).default("zh-Hans"),
   })
-  .refine((r) => r.mode !== "polish" || r.draft, {
-    message: "draft is required when mode is polish",
+  .refine((r) => r.mode === "reply" || r.draft, {
+    message: "draft is required when mode is polish or check",
     path: ["draft"],
   });
 
@@ -45,7 +45,21 @@ export const ReplySuggestionsSchema = z.object({
     .min(1),
 });
 
-export type ReplySuggestions = z.infer<typeof ReplySuggestionsSchema>;
+// 发送前检查：good 可以直接发，adjust 建议改一改，risky 发出去可能让对方不舒服
+export const DraftCheckSchema = z.object({
+  verdict: z.enum(["good", "adjust", "risky"]),
+  note: z.string().min(1),
+});
+
+export const CheckResultSchema = z.object({
+  reply_language: z.string(),
+  check: DraftCheckSchema,
+  replies: z.array(z.object({ text: z.string().min(1), why: z.string().min(1) })),
+});
+
+export type ReplySuggestions = z.infer<typeof ReplySuggestionsSchema> & {
+  check?: z.infer<typeof DraftCheckSchema>;
+};
 
 // 交给模型的结构化输出约束，与 ReplySuggestionsSchema 保持一致
 export const REPLY_OUTPUT_JSON_SCHEMA = {
@@ -69,5 +83,24 @@ export const REPLY_OUTPUT_JSON_SCHEMA = {
     },
   },
   required: ["reply_language", "replies"],
+  additionalProperties: false,
+} as const;
+
+export const CHECK_OUTPUT_JSON_SCHEMA = {
+  type: "object",
+  properties: {
+    reply_language: REPLY_OUTPUT_JSON_SCHEMA.properties.reply_language,
+    check: {
+      type: "object",
+      properties: {
+        verdict: { type: "string", enum: ["good", "adjust", "risky"] },
+        note: { type: "string" },
+      },
+      required: ["verdict", "note"],
+      additionalProperties: false,
+    },
+    replies: REPLY_OUTPUT_JSON_SCHEMA.properties.replies,
+  },
+  required: ["reply_language", "check", "replies"],
   additionalProperties: false,
 } as const;

@@ -28,9 +28,10 @@ describe("buildUserMessage", () => {
     expect(msg).toContain("<ui_language>zh-Hans</ui_language>");
   });
 
-  it("includes the draft only in polish mode", () => {
+  it("includes the draft only in polish and check modes", () => {
     const base = { uiLanguage: "en", conversation: [{ speaker: "them" as const, text: "hi" }] };
     expect(buildUserMessage({ ...base, mode: "polish", draft: "hey u" })).toContain("<draft>hey u</draft>");
+    expect(buildUserMessage({ ...base, mode: "check", draft: "hey u" })).toContain("<draft>hey u</draft>");
     expect(buildUserMessage({ ...base, mode: "reply", draft: "hey u" })).not.toContain("<draft>");
   });
 });

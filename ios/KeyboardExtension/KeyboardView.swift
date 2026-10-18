@@ -28,6 +28,10 @@ struct KeyboardView: View {
                 lastMode = .polish
                 model.run(.polish)
             } label: { Label("keyboard.polish", systemImage: "wand.and.stars") }
+            Button {
+                lastMode = .check
+                model.run(.check)
+            } label: { Label("keyboard.check", systemImage: "checkmark.shield") }
             Spacer()
             if model.panel == .assistant {
                 Button("keyboard.back") { model.panel = .keys }
@@ -53,9 +57,12 @@ struct KeyboardView: View {
             } else {
                 ScrollView {
                     VStack(spacing: 6) {
+                        if let check = model.check {
+                            CheckBanner(check: check)
+                        }
                         ForEach(model.suggestions) { suggestion in
                             Button {
-                                model.use(suggestion, replacingDraft: lastMode == .polish)
+                                model.use(suggestion, replacingDraft: lastMode != .reply)
                                 model.clearImported()
                             } label: {
                                 VStack(alignment: .leading, spacing: 2) {
@@ -71,6 +78,36 @@ struct KeyboardView: View {
                 }
             }
         }
+    }
+}
+
+private struct CheckBanner: View {
+    let check: DraftCheck
+
+    private var title: LocalizedStringKey {
+        switch check.verdict {
+        case .good: "check.good"
+        case .adjust: "check.adjust"
+        case .risky: "check.risky"
+        }
+    }
+
+    private var color: Color {
+        switch check.verdict {
+        case .good: .green
+        case .adjust: .orange
+        case .risky: .red
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title).font(.subheadline.bold()).foregroundStyle(color)
+            Text(check.note).font(.caption).foregroundStyle(.primary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(8)
+        .background(color.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
     }
 }
 

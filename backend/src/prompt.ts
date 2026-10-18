@@ -30,7 +30,8 @@ Boundaries
 
 Modes
 - reply: suggest the user's next message.
-- polish: the user wrote <draft>. Return 3 improved versions that keep the user's intent and voice; each "why" says what changed and why it reads better.`;
+- polish: the user wrote <draft>. Return 3 improved versions that keep the user's intent and voice; each "why" says what changed and why it reads better.
+- check: the user is about to send <draft> and wants a second opinion before sending. Judge how the other person is likely to read it. Set "verdict" to "good" if it can be sent as-is, "adjust" if a small change would land better, or "risky" if it may hurt, pressure or put off the other person. "note" is one or two sentences in the user's interface language: what works, and what might land badly and why. Be honest but kind, and do not invent problems; most ordinary messages are fine. If the verdict is "good", return no replies. Otherwise return 1 or 2 improved versions that keep the user's intent and voice.`;
 
 const STAGE_LABELS: Record<string, string> = {
   just_met: "just met / getting to know each other",
@@ -62,7 +63,7 @@ export function buildUserMessage(req: ReplyRequest): string {
     .join("\n");
   parts.push(`<conversation>\n${turns}\n</conversation>`);
 
-  if (req.mode === "polish" && req.draft) parts.push(`<draft>${escape(req.draft)}</draft>`);
+  if (req.mode !== "reply" && req.draft) parts.push(`<draft>${escape(req.draft)}</draft>`);
 
   const tone = req.tone ?? {};
   const wanted = (["humor", "warm", "direct", "brief"] as const).filter((k) => tone[k]);

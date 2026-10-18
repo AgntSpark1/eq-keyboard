@@ -8,6 +8,7 @@ final class KeyboardModel: ObservableObject {
 
     @Published var panel: Panel = .keys
     @Published var suggestions: [ReplySuggestion] = []
+    @Published var check: DraftCheck?
     @Published var isLoading = false
     @Published var message: String?
     @Published var tone: TonePreferences
@@ -148,7 +149,7 @@ final class KeyboardModel: ObservableObject {
             return
         }
         let draft = currentDraft().trimmingCharacters(in: .whitespacesAndNewlines)
-        if mode == .polish && draft.isEmpty {
+        if mode != .reply && draft.isEmpty {
             message = String(localized: "keyboard.noDraft")
             panel = .assistant
             return
@@ -158,10 +159,11 @@ final class KeyboardModel: ObservableObject {
         isLoading = true
         message = nil
         suggestions = []
+        check = nil
         let request = ReplyRequest(
             mode: mode,
             conversation: turns,
-            draft: mode == .polish ? draft : nil,
+            draft: mode == .reply ? nil : draft,
             profile: store.profile,
             tone: tone,
             uiLanguage: APIClient.uiLanguage
@@ -169,7 +171,9 @@ final class KeyboardModel: ObservableObject {
         Task {
             defer { isLoading = false }
             do {
-                suggestions = try await api.suggestReplies(request).replies
+                let result = try await api.suggestReplies(request)
+                suggestions = result.replies
+                check = result.check
             } catch {
                 message = error.localizedDescription
             }
