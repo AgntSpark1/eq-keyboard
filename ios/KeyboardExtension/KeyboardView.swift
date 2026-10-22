@@ -357,10 +357,15 @@ private extension View {
     /// iOS 26 起滚动视图边缘会自动加模糊，候选栏很矮，会把整排候选字糊掉
     @ViewBuilder
     func noScrollEdgeBlur() -> some View {
+        // 这个 API 只在 iOS 26 SDK（Xcode 26）里有，CI 的 Xcode 16 编译不到
+        #if compiler(>=6.2)
         if #available(iOS 26.0, *) {
             scrollEdgeEffectHidden(true, for: .all)
         } else {
             self
         }
+        #else
+        self
+        #endif
     }
 }
