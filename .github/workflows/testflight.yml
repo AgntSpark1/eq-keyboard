@@ -84,10 +84,11 @@ jobs:
           except urllib.error.HTTPError as err:
               print(f"::error::App Store Connect API {err.code}: {err.read().decode()[:1000]}")
               raise SystemExit(1)
+          # 苹果的 bundleId 过滤是前缀匹配，键盘扩展的 ID 也会被查出来，所以这里要精确比较
           apps = [(a["attributes"]["name"], a["attributes"]["bundleId"]) for a in body["data"]]
-          print("Apps visible to this API key:", apps)
-          if not apps:
-              print("::error::这个 API 密钥看不到 Bundle ID 为 com.yonghuizhang.eqkeyboard 的 App")
+          print("Apps found:", apps)
+          if not any(bundle == "com.yonghuizhang.eqkeyboard" for _, bundle in apps):
+              print("::error::App Store Connect 里没有套装 ID 正好是 com.yonghuizhang.eqkeyboard 的 App（不能用以 .keyboard 结尾的键盘扩展 ID）")
               raise SystemExit(1)
           PY
       - name: Upload to TestFlight
