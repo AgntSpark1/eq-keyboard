@@ -5,11 +5,9 @@ name: TestFlight
 #   密钥 Secrets：ASC_KEY_ID、ASC_ISSUER_ID、ASC_PRIVATE_KEY（App Store Connect API 密钥 .p8 文件的全部内容）
 #   变量 Variables（可选）：EQ_API_BASE_URL 后端地址
 # 没配密钥时跳过，不会报错。
+# 只在手动触发时上传（Actions 页面点 Run workflow），合并代码不会自动上传
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ["ios/**"]
 
 concurrency:
   group: testflight
