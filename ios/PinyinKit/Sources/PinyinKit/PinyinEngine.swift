@@ -15,12 +15,12 @@ public struct Candidate: Equatable, Hashable {
 /// 支持全拼、最后一个音节没打完（nih -> 你好）和简拼（nh -> 你好，zhd -> 知道）。
 public final class PinyinEngine: Sendable {
     /// 只有辅音的冷门音节（嗯 n、哼 hng 等）。不当作完整音节，否则 nh 会被切成“嗯”+h，简拼就不灵了
-    private static let ignoredSyllables: Set<String> = ["hng", "hm", "ng", "m", "n"]
+    static let ignoredSyllables: Set<String> = ["hng", "hm", "ng", "m", "n"]
 
     // 三个数组按下标对应，keys 按字典序排好，同一拼音内按词频从高到低
-    private let keys: [String]
-    private let words: [String]
-    private let freqs: [Int32]
+    let keys: [String]
+    let words: [String]
+    let freqs: [Int32]
 
     let syllables: Set<String>
     private let syllablePrefixes: Set<String>
