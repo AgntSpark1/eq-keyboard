@@ -60,4 +60,38 @@ final class PinyinEngineTests: XCTestCase {
         XCTAssertEqual(small.candidates(for: "hao").map(\.text), ["好", "号"])
         XCTAssertEqual(small.candidates(for: "haom").map(\.text), ["好吗", "好", "号"])
     }
+
+    func testT9FullPinyin() {
+        XCTAssertEqual(engine.t9Candidates(for: "64426").first?.text, "你好")
+        XCTAssertEqual(engine.t9Candidates(for: "64").first?.text, "你")
+        XCTAssertEqual(engine.t9Candidates(for: "944826").first?.text, "喜欢")
+    }
+
+    func testT9ShorterMatchesConsumePartOfInput() {
+        let candidates = engine.t9Candidates(for: "64426")
+        XCTAssertTrue(candidates.contains { $0.text == "你" && $0.consumedLength == 2 })
+    }
+
+    func testT9FirstSyllableFilter() {
+        let candidates = engine.t9Candidates(for: "64", firstSyllable: "mi")
+        XCTAssertFalse(candidates.isEmpty)
+        XCTAssertTrue(candidates.allSatisfy { $0.pinyin.hasPrefix("mi") })
+    }
+
+    func testT9Syllables() {
+        let syllables = engine.t9Syllables(for: "64")
+        XCTAssertTrue(syllables.contains("ni"))
+        XCTAssertTrue(syllables.contains("mi"))
+        XCTAssertEqual(Array(syllables.suffix(2)), ["m", "n"])
+    }
+
+    func testPredictions() {
+        let afterNi = engine.predictions(after: "你")
+        XCTAssertTrue(afterNi.contains("好"))
+        XCTAssertTrue(afterNi.contains("们"))
+        XCTAssertTrue(engine.predictions(after: "hello").isEmpty)
+        XCTAssertEqual(engine.predictions(after: "今天").first, "晚上")
+        // “你好”是完整的词，不应该按“好”去联想出“久不见”
+        XCTAssertFalse(engine.predictions(after: "你好").contains("久不见"))
+    }
 }

@@ -58,3 +58,7 @@
 "account.terms" = "订阅会自动续费，可随时在 设置 > Apple ID > 订阅 中取消。";
 "account.restore" = "恢复购买";
 "account.signOut" = "退出登录";
+"keyboard.t9" = "九键";
+"keyboard.qwerty" = "全键";
+"keyboard.reset" = "重输";
+"keyboard.symbols" = "符号";

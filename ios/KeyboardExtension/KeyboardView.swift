@@ -36,7 +36,13 @@ struct KeyboardView: View {
             topBar
                 .frame(height: Metrics.barHeight)
             switch model.panel {
-            case .keys: LetterKeys(model: model, needsGlobe: needsGlobe, onGlobe: onGlobe)
+            case .keys:
+                if model.activeLayout == .t9 {
+                    T9Keys(model: model)
+                } else {
+                    LetterKeys(model: model, needsGlobe: needsGlobe, onGlobe: onGlobe)
+                }
+            case .symbols: SymbolKeys(model: model)
             case .assistant: assistant
             }
         }
@@ -45,11 +51,13 @@ struct KeyboardView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    /// 顶部栏：打拼音时显示候选词，否则显示 AI 功能按钮
+    /// 顶部栏：打拼音时显示候选词，刚上屏时显示联想，否则显示 AI 功能按钮
     @ViewBuilder
     private var topBar: some View {
-        if model.panel == .keys && model.chineseMode && !model.composing.isEmpty {
+        if model.panel != .assistant && model.chineseMode && !model.composing.isEmpty {
             CandidateBar(model: model)
+        } else if model.panel != .assistant && !model.predictions.isEmpty {
+            PredictionBar(model: model)
         } else {
             HStack(spacing: 8) {
                 ActionChip(title: "keyboard.reply", systemImage: "sparkles", isOn: model.panel == .assistant && lastMode == .reply) {
@@ -65,6 +73,19 @@ struct KeyboardView: View {
                     model.run(.check)
                 }
                 Spacer(minLength: 0)
+                if model.panel == .keys && model.chineseMode {
+                    Button {
+                        model.setLayout(model.layout == .t9 ? .qwerty : .t9)
+                    } label: {
+                        Text(model.layout == .t9 ? "keyboard.qwerty" : "keyboard.t9")
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 10)
+                            .frame(height: 28)
+                            .background(Color.keyFace.opacity(0.6), in: Capsule())
+                    }
+                    .buttonStyle(PressDimStyle())
+                }
                 if model.panel == .assistant {
                     Button {
                         model.panel = .keys
@@ -272,10 +293,12 @@ private struct LetterKeys: View {
 
                 HStack(spacing: Metrics.keyGap) {
                     if needsGlobe {
-                        key(systemImage: "globe", action: onGlobe).frame(width: keyW * 1.1)
+                        key(systemImage: "globe", action: onGlobe).frame(width: keyW)
                     }
+                    key("123", function: true, font: .system(size: 16)) { model.panel = .symbols }
+                        .frame(width: keyW * 1.1)
                     key(model.chineseMode ? "中" : "EN", function: true, font: .system(size: 17)) { model.toggleLanguage() }
-                        .frame(width: needsGlobe ? keyW * 1.1 : sideW)
+                        .frame(width: keyW * 1.1)
                     key(model.chineseMode ? "，" : ",", font: .system(size: 20)) {
                         model.typePunctuation(model.chineseMode ? "，" : ",")
                     }
@@ -286,7 +309,7 @@ private struct LetterKeys: View {
                     }
                     .frame(width: keyW)
                     key(systemImage: "return") { model.tapReturn() }
-                        .frame(width: keyW * 1.9)
+                        .frame(width: needsGlobe ? keyW * 1.5 : keyW * 1.9)
                 }
                 .frame(height: rowH)
             }
@@ -324,7 +347,7 @@ private struct CandidateBar: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(model.composing)
+            Text(model.composingDisplay)
                 .font(.system(size: 13))
                 .foregroundStyle(.secondary)
                 .padding(.leading, 8)
@@ -367,5 +390,228 @@ private extension View {
         #else
         self
         #endif
+    }
+}
+
+/// 一个按键，供九键和符号键盘共用
+private struct KeyCap: View {
+    var title: String?
+    var subtitle: String?
+    var systemImage: String?
+    var function = false
+    var font: Font = .system(size: 20)
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            if let systemImage {
+                Image(systemName: systemImage).font(.system(size: 18))
+            } else {
+                VStack(spacing: 0) {
+                    if let subtitle {
+                        Text(subtitle).font(.system(size: 11)).foregroundStyle(.secondary)
+                    }
+                    Text(title ?? "").font(font)
+                }
+            }
+        }
+        .buttonStyle(KeyStyle(isFunction: function))
+    }
+}
+
+/// 九键拼音：左侧是音节（没在打字时是常用标点），中间 2-9 数字键，右侧删除、重输、句号
+private struct T9Keys: View {
+    @ObservedObject var model: KeyboardModel
+
+    private let grid: [[(Character, String)]] = [
+        [("1", ""), ("2", "ABC"), ("3", "DEF")],
+        [("4", "GHI"), ("5", "JKL"), ("6", "MNO")],
+        [("7", "PQRS"), ("8", "TUV"), ("9", "WXYZ")],
+    ]
+    private let punctuation = ["，", "。", "？", "！", "…", "~", "、"]
+
+    var body: some View {
+        GeometryReader { geo in
+            let sideW = geo.size.width * 0.17
+            let centerW = (geo.size.width - 2 * sideW - 4 * Metrics.keyGap) / 3
+            let rowH = max(36, (geo.size.height - 4 - 3 * Metrics.rowGap) / 4)
+
+            VStack(spacing: Metrics.rowGap) {
+                HStack(alignment: .top, spacing: Metrics.keyGap) {
+                    sideColumn
+                        .frame(width: sideW, height: rowH * 3 + Metrics.rowGap * 2)
+                    VStack(spacing: Metrics.rowGap) {
+                        ForEach(0..<3, id: \.self) { row in
+                            HStack(spacing: Metrics.keyGap) {
+                                ForEach(grid[row], id: \.0) { digit, letters in
+                                    if digit == "1" {
+                                        KeyCap(title: "，", subtitle: "1", font: .system(size: 20)) {
+                                            model.typePunctuation("，")
+                                        }
+                                        .frame(width: centerW)
+                                    } else {
+                                        KeyCap(title: letters, subtitle: String(digit), font: .system(size: 18, weight: .medium)) {
+                                            model.typeDigit(digit)
+                                        }
+                                        .frame(width: centerW)
+                                    }
+                                }
+                            }
+                            .frame(height: rowH)
+                        }
+                    }
+                    VStack(spacing: Metrics.rowGap) {
+                        KeyCap(systemImage: "delete.left", function: true) { model.tapDelete() }
+                            .frame(height: rowH)
+                        KeyCap(title: String(localized: "keyboard.reset"), function: true, font: .system(size: 16)) {
+                            model.clearComposing()
+                        }
+                        .frame(height: rowH)
+                        KeyCap(title: "。", font: .system(size: 20)) { model.typePunctuation("。") }
+                            .frame(height: rowH)
+                    }
+                    .frame(width: sideW)
+                }
+
+                HStack(spacing: Metrics.keyGap) {
+                    KeyCap(title: "123", function: true, font: .system(size: 16)) { model.panel = .symbols }
+                        .frame(width: sideW)
+                    KeyCap(title: "中", function: true, font: .system(size: 17)) { model.toggleLanguage() }
+                        .frame(width: centerW)
+                    KeyCap(title: String(localized: "keyboard.space"), font: .system(size: 16)) { model.tapSpace() }
+                    KeyCap(systemImage: "return", function: true) { model.tapReturn() }
+                        .frame(width: sideW)
+                }
+                .frame(height: rowH)
+            }
+            .padding(.top, 4)
+        }
+    }
+
+    private var sideColumn: some View {
+        let items = model.composing.isEmpty ? punctuation : model.t9Syllables
+        return ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 0) {
+                ForEach(items, id: \.self) { item in
+                    Button {
+                        if model.composing.isEmpty {
+                            model.typePunctuation(item)
+                        } else {
+                            model.selectSyllable(item)
+                        }
+                    } label: {
+                        Text(item)
+                            .font(.system(size: 16, weight: model.t9Syllable == item ? .semibold : .regular))
+                            .foregroundStyle(model.t9Syllable == item ? Color.accentColor : Color.primary)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 38)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(PressDimStyle())
+                }
+            }
+        }
+        .noScrollEdgeBlur()
+        .background(Color.keyFunction, in: RoundedRectangle(cornerRadius: Metrics.keyRadius, style: .continuous))
+        .shadow(color: .keyShadow, radius: 0, x: 0, y: 1)
+    }
+}
+
+/// 数字和符号键盘
+private struct SymbolKeys: View {
+    @ObservedObject var model: KeyboardModel
+
+    private var rows: [[String]] {
+        if model.chineseMode {
+            return [
+                "1234567890".map(String.init),
+                ["-", "/", "：", "；", "（", "）", "¥", "@", "“", "”"],
+                ["。", "，", "、", "？", "！", "…", "~"],
+            ]
+        }
+        return [
+            "1234567890".map(String.init),
+            ["-", "/", ":", ";", "(", ")", "$", "&", "@", "\""],
+            [".", ",", "?", "!", "'", "#", "%"],
+        ]
+    }
+
+    var body: some View {
+        GeometryReader { geo in
+            let keyW = (geo.size.width - 9 * Metrics.keyGap) / 10
+            let rowH = max(36, (geo.size.height - 4 - 3 * Metrics.rowGap) / 4)
+
+            VStack(spacing: Metrics.rowGap) {
+                ForEach(0..<2, id: \.self) { row in
+                    HStack(spacing: Metrics.keyGap) {
+                        ForEach(rows[row], id: \.self) { symbol in
+                            KeyCap(title: symbol, font: .system(size: 21)) { model.typePunctuation(symbol) }
+                                .frame(width: keyW)
+                        }
+                    }
+                    .frame(height: rowH)
+                }
+                HStack(spacing: Metrics.keyGap) {
+                    Spacer(minLength: 0)
+                    ForEach(rows[2], id: \.self) { symbol in
+                        KeyCap(title: symbol, font: .system(size: 21)) { model.typePunctuation(symbol) }
+                            .frame(width: keyW * 1.15)
+                    }
+                    Spacer(minLength: 0)
+                    KeyCap(systemImage: "delete.left", function: true) { model.tapDelete() }
+                        .frame(width: keyW * 1.3)
+                }
+                .frame(height: rowH)
+                HStack(spacing: Metrics.keyGap) {
+                    KeyCap(title: model.chineseMode ? "拼音" : "ABC", function: true, font: .system(size: 16)) {
+                        model.panel = .keys
+                    }
+                    .frame(width: keyW * 2.2)
+                    KeyCap(title: String(localized: "keyboard.space"), font: .system(size: 16)) { model.tapSpace() }
+                    KeyCap(systemImage: "return", function: true) { model.tapReturn() }
+                        .frame(width: keyW * 2.2)
+                }
+                .frame(height: rowH)
+            }
+            .padding(.top, 4)
+        }
+    }
+}
+
+/// 联想栏：刚上屏的字后面可能接的字词，最右边可以收起回到 AI 按钮
+private struct PredictionBar: View {
+    @ObservedObject var model: KeyboardModel
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 4) {
+                    ForEach(model.predictions, id: \.self) { word in
+                        Button {
+                            model.pickPrediction(word)
+                        } label: {
+                            Text(word)
+                                .font(.system(size: 19))
+                                .foregroundStyle(Color.primary)
+                                .padding(.horizontal, 9)
+                                .frame(height: 36)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(PressDimStyle())
+                    }
+                }
+            }
+            .noScrollEdgeBlur()
+            Button {
+                model.dismissPredictions()
+            } label: {
+                Image(systemName: "sparkles")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(Color.accentColor)
+                    .frame(width: 40, height: 36)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(PressDimStyle())
+        }
     }
 }

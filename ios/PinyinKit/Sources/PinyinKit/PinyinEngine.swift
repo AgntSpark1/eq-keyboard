@@ -18,18 +18,26 @@ public final class PinyinEngine: Sendable {
     private static let ignoredSyllables: Set<String> = ["hng", "hm", "ng", "m", "n"]
 
     // 三个数组按下标对应，keys 按字典序排好，同一拼音内按词频从高到低
-    private let keys: [String]
-    private let words: [String]
-    private let freqs: [Int32]
+    let keys: [String]
+    let words: [String]
+    let freqs: [Int32]
 
     let syllables: Set<String>
     private let syllablePrefixes: Set<String>
     private let maxSyllableLength: Int
     /// 简拼索引：每个音节的首字母连起来（如 ni hao -> "nh"）-> 词条下标，按词频从高到低；只收两个音节以上的词
     private let abbreviations: [String: [Int32]]
+    /// 联想索引：首字 -> 两字以上的词条下标，按词频从高到低
+    let predictionIndex: [Character: [Int32]]
+    /// 聊天常用的接续词（“今天” -> 晚上、怎么样），优先于词库联想
+    let chatPredictions: [String: [String]]
+    let wordSet: Set<String>
+    /// 九键索引，见 PinyinEngine+T9.swift
+    let t9: T9Index
 
-    /// tsv 每行：以空格分隔的无声调拼音<TAB>词<TAB>词频，且已按拼音排序
-    public init(tsv: String) {
+    /// tsv 每行：以空格分隔的无声调拼音<TAB>词<TAB>词频，且已按拼音排序。
+    /// chatPredictions 每行：上文<TAB>以空格分隔的接续词
+    public init(tsv: String, chatPredictions: String = "") {
         var keys: [String] = []
         var words: [String] = []
         var freqs: [Int32] = []
@@ -70,6 +78,10 @@ public final class PinyinEngine: Sendable {
             }
         }
         self.syllablePrefixes = prefixes
+        self.predictionIndex = Self.buildPredictionIndex(words: words, freqs: freqs)
+        self.chatPredictions = Self.parseChatPredictions(chatPredictions)
+        self.wordSet = Set(words)
+        self.t9 = T9Index(keys: keys, freqs: freqs)
     }
 
     /// 加载随包附带的词库，约 13 万条，建议在后台线程调用
@@ -77,7 +89,9 @@ public final class PinyinEngine: Sendable {
         guard let url = Bundle.module.url(forResource: "pinyin_dict", withExtension: "tsv") else {
             throw CocoaError(.fileNoSuchFile)
         }
-        return PinyinEngine(tsv: try String(contentsOf: url, encoding: .utf8))
+        let chat = Bundle.module.url(forResource: "chat_predictions", withExtension: "tsv")
+            .flatMap { try? String(contentsOf: $0, encoding: .utf8) } ?? ""
+        return PinyinEngine(tsv: try String(contentsOf: url, encoding: .utf8), chatPredictions: chat)
     }
 
     /// 贪心切分音节；不成音节的字母当作声母或未打完的音节（"nih" -> ["ni", "h"]，"zhd" -> ["zh", "d"]）。' 强制分隔。
