@@ -104,4 +104,13 @@ final class PinyinEngineTests: XCTestCase {
         // “你好”是完整的词，不应该按“好”去联想出“久不见”
         XCTAssertFalse(engine.predictions(after: "你好").contains("久不见"))
     }
+
+    func testRareCharactersComeAfterCommonOnes() throws {
+        let kun = engine.candidates(for: "kun", limit: 400).map(\.text)
+        XCTAssertEqual(kun.first, "坤")
+        let rare = try XCTUnwrap(kun.firstIndex(of: "堃"))
+        XCTAssertGreaterThan(rare, try XCTUnwrap(kun.firstIndex(of: "昆")))
+        XCTAssertTrue(engine.candidates(for: "luo", limit: 400).contains { $0.text == "啰" })
+        XCTAssertTrue(engine.candidates(for: "zhe", limit: 400).contains { $0.text == "喆" })
+    }
 }

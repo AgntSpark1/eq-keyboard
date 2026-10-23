@@ -62,6 +62,8 @@
 "keyboard.qwerty" = "QWERTY";
 "keyboard.reset" = "Clear";
 "keyboard.symbols" = "Symbols";
+"keyboard.expand" = "Show more";
+"keyboard.collapse" = "Show less";
 "keyboard.context %@" = "Them: %@";
 "keyboard.turns %lld" = "%lld earlier";
 "keyboard.newChat" = "Clear context";
