@@ -2,9 +2,14 @@ import Foundation
 import PinyinKit
 import UIKit
 
+enum KeyboardLayout: String {
+    case qwerty, t9
+}
+
 @MainActor
 final class KeyboardModel: ObservableObject {
-    enum Panel { case keys, assistant }
+    enum Panel { case keys, symbols, assistant }
+    static let layoutKey = "keyboardLayout"
 
     @Published var panel: Panel = .keys
     @Published var suggestions: [ReplySuggestion] = []
@@ -15,6 +20,17 @@ final class KeyboardModel: ObservableObject {
     @Published var chineseMode = true
     @Published private(set) var composing = ""
     @Published private(set) var candidates: [Candidate] = []
+    /// 候选栏上方显示的拼音；九键时是第一个候选的拼音
+    @Published private(set) var composingDisplay = ""
+    /// 九键左侧可选的音节
+    @Published private(set) var t9Syllables: [String] = []
+    @Published private(set) var t9Syllable: String?
+    /// 输入联想：上屏后显示在顶部栏
+    @Published private(set) var predictions: [String] = []
+    @Published private(set) var layout: KeyboardLayout =
+        KeyboardLayout(rawValue: UserDefaults.standard.string(forKey: KeyboardModel.layoutKey) ?? "") ?? .qwerty
+    /// 最近上屏的几个字，用来联想
+    private var recent = ""
 
     let insert: (String) -> Void
     let deleteBackward: () -> Void
@@ -45,13 +61,37 @@ final class KeyboardModel: ObservableObject {
 
     // MARK: 拼音输入
 
+    /// 九键只用于中文；英文始终是全键盘
+    var activeLayout: KeyboardLayout { chineseMode ? layout : .qwerty }
+
+    func setLayout(_ newLayout: KeyboardLayout) {
+        guard newLayout != layout else { return }
+        clearComposing()
+        layout = newLayout
+        UserDefaults.standard.set(newLayout.rawValue, forKey: Self.layoutKey)
+    }
+
     func typeLetter(_ letter: String) {
+        predictions = []
         if chineseMode {
             composing += letter.lowercased()
             refreshCandidates()
         } else {
             insert(letter)
         }
+    }
+
+    /// 九键数字 2-9
+    func typeDigit(_ digit: Character) {
+        predictions = []
+        composing.append(digit)
+        refreshCandidates()
+    }
+
+    /// 九键左侧选定第一个音节，候选只保留这个读音开头的词
+    func selectSyllable(_ syllable: String) {
+        t9Syllable = t9Syllable == syllable ? nil : syllable
+        refreshCandidates()
     }
 
     func typeApostrophe() {
@@ -61,18 +101,32 @@ final class KeyboardModel: ObservableObject {
     }
 
     func tapDelete() {
+        predictions = []
         if composing.isEmpty {
             deleteBackward()
+            recent = String(recent.dropLast())
+        } else if t9Syllable != nil {
+            t9Syllable = nil
+            refreshCandidates()
         } else {
             composing.removeLast()
             refreshCandidates()
         }
     }
 
+    /// 九键“重输”：清空正在打的拼音
+    func clearComposing() {
+        composing = ""
+        t9Syllable = nil
+        refreshCandidates()
+    }
+
     /// 空格：有拼音时上屏第一个候选，否则输入空格
     func tapSpace() {
         if composing.isEmpty {
+            predictions = []
             insert(" ")
+            recent = ""
         } else if let first = candidates.first {
             pick(first)
         } else {
@@ -82,42 +136,92 @@ final class KeyboardModel: ObservableObject {
 
     /// 回车：有拼音时直接上屏字母，否则换行
     func tapReturn() {
+        predictions = []
         if composing.isEmpty {
             insert("\n")
+            recent = ""
         } else {
             commitRaw()
         }
     }
 
-    /// 标点：先把正在输入的拼音按第一个候选上屏
+    /// 标点和符号：先把正在输入的拼音按第一个候选上屏
     func typePunctuation(_ mark: String) {
         while !composing.isEmpty, let first = candidates.first {
             pick(first)
         }
         if !composing.isEmpty { commitRaw() }
+        predictions = []
         insert(mark)
+        recent = ""
     }
 
     func pick(_ candidate: Candidate) {
-        insert(candidate.text)
+        commit(candidate.text)
         composing = String(composing.dropFirst(candidate.consumedLength))
         while composing.first == "'" { composing.removeFirst() }
+        t9Syllable = nil
         refreshCandidates()
+        if composing.isEmpty { refreshPredictions() }
+    }
+
+    func dismissPredictions() {
+        predictions = []
+    }
+
+    /// 选联想词：直接上屏，再接着联想
+    func pickPrediction(_ word: String) {
+        commit(word)
+        refreshPredictions()
     }
 
     func toggleLanguage() {
         if !composing.isEmpty { commitRaw() }
+        predictions = []
         chineseMode.toggle()
     }
 
+    private func commit(_ text: String) {
+        insert(text)
+        recent = String((recent + text).suffix(6))
+    }
+
     private func commitRaw() {
-        insert(composing.replacingOccurrences(of: "'", with: ""))
+        let raw = activeLayout == .t9 ? composingDisplay : composing
+        insert(raw.replacingOccurrences(of: "'", with: ""))
         composing = ""
+        t9Syllable = nil
+        recent = ""
         refreshCandidates()
     }
 
+    private func refreshPredictions() {
+        predictions = engine?.predictions(after: recent) ?? []
+    }
+
     private func refreshCandidates() {
-        candidates = composing.isEmpty ? [] : engine?.candidates(for: composing) ?? []
+        guard !composing.isEmpty, let engine else {
+            candidates = []
+            t9Syllables = []
+            composingDisplay = composing
+            return
+        }
+        if activeLayout == .t9 {
+            let results = engine.t9Candidates(for: composing, firstSyllable: t9Syllable)
+            candidates = results.map { Candidate(text: $0.text, consumedLength: $0.consumedLength) }
+            t9Syllables = engine.t9Syllables(for: composing)
+            if let first = results.first, first.consumedLength == composing.count {
+                composingDisplay = first.pinyin
+            } else if let t9Syllable {
+                composingDisplay = t9Syllable + "'" + composing.dropFirst(t9Syllable.count)
+            } else {
+                composingDisplay = composing
+            }
+        } else {
+            candidates = engine.candidates(for: composing)
+            t9Syllables = []
+            composingDisplay = composing
+        }
     }
 
     func toggleTone(_ keyPath: WritableKeyPath<TonePreferences, Bool>) {

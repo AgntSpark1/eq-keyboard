@@ -8,7 +8,7 @@
 | --- | --- |
 | `backend/` | Node + TypeScript 后端：校验请求、每日额度、组装提示词、经可配置的中转 API 调用 Claude，返回 3 条回复和解释 |
 | `ios/` | iOS 主 App（开启引导、截图导入与端侧识别、对方档案）和键盘扩展（拼音输入、帮我回、帮我改、发前看看、语气开关） |
-| `ios/PinyinKit/` | 全拼输入引擎与约 13 万条简体词库（Swift Package，可单独 `swift test`） |
+| `ios/PinyinKit/` | 拼音输入引擎（全拼、九键、输入联想）与约 13 万条简体词库（Swift Package，可单独 `swift test`） |
 | `tools/` | 词库生成脚本 |
 
 Android 输入法在第二阶段加入。

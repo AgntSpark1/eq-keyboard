@@ -21,12 +21,15 @@ final class KeyboardViewController: UIInputViewController {
         addChild(host)
         host.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(host.view)
+        // 顶部栏 46 + 四行按键，接近系统键盘高度；优先级低于必需，避免和系统约束冲突
+        let height = host.view.heightAnchor.constraint(equalToConstant: 272)
+        height.priority = .init(999)
         NSLayoutConstraint.activate([
             host.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             host.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             host.view.topAnchor.constraint(equalTo: view.topAnchor),
             host.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            host.view.heightAnchor.constraint(equalToConstant: 340),
+            height,
         ])
         host.didMove(toParent: self)
     }

@@ -58,3 +58,7 @@
 "account.terms" = "Subscriptions renew automatically. Cancel anytime in Settings > Apple ID > Subscriptions.";
 "account.restore" = "Restore purchases";
 "account.signOut" = "Sign out";
+"keyboard.t9" = "T9";
+"keyboard.qwerty" = "QWERTY";
+"keyboard.reset" = "Clear";
+"keyboard.symbols" = "Symbols";
