@@ -40,10 +40,16 @@ final class SharedStore {
         set { set(newValue, for: "userId") }
     }
 
-    /// 主 App 从截图识别出的对话，键盘读取后使用
+    /// 主 App 或快捷指令从截图识别出的对话，键盘读取后并入 chatSession 并清空
     var importedConversation: [ChatTurn] {
         get { decode([ChatTurn].self, key: "importedConversation") ?? [] }
         set { encode(newValue.isEmpty ? nil : newValue, key: "importedConversation") }
+    }
+
+    /// 键盘正在用的对话上下文
+    var chatSession: ChatSession? {
+        get { decode(ChatSession.self, key: "chatSession") }
+        set { encode(newValue, key: "chatSession") }
     }
 
     var profile: PartnerProfile? {
