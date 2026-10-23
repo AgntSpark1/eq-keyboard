@@ -362,8 +362,8 @@ private struct CandidateBar: View {
                 .padding(.leading, 8)
                 .frame(height: 16)
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 4) {
-                    ForEach(Array(model.candidates.enumerated()), id: \.offset) { index, candidate in
+                LazyHStack(spacing: 4) {
+                    ForEach(Array(model.candidates.prefix(60).enumerated()), id: \.offset) { index, candidate in
                         Button {
                             model.pick(candidate)
                         } label: {

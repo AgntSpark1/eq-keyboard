@@ -10,6 +10,8 @@ enum KeyboardLayout: String {
 final class KeyboardModel: ObservableObject {
     enum Panel { case keys, symbols, assistant }
     static let layoutKey = "keyboardLayout"
+    /// 展开面板里要能翻到生僻字，候选多取一些
+    static let candidateLimit = 400
 
     @Published var panel: Panel = .keys
     @Published var suggestions: [ReplySuggestion] = []
@@ -243,7 +245,7 @@ final class KeyboardModel: ObservableObject {
             return
         }
         if activeLayout == .t9 {
-            let results = engine.t9Candidates(for: composing, firstSyllable: t9Syllable)
+            let results = engine.t9Candidates(for: composing, firstSyllable: t9Syllable, limit: Self.candidateLimit)
             candidates = results.map { Candidate(text: $0.text, consumedLength: $0.consumedLength) }
             t9Syllables = engine.t9Syllables(for: composing)
             if let first = results.first, first.consumedLength == composing.count {
@@ -254,7 +256,7 @@ final class KeyboardModel: ObservableObject {
                 composingDisplay = composing
             }
         } else {
-            candidates = engine.candidates(for: composing)
+            candidates = engine.candidates(for: composing, limit: Self.candidateLimit)
             t9Syllables = []
             composingDisplay = composing
         }
