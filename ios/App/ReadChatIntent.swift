@@ -8,7 +8,8 @@ struct ReadChatScreenshotIntent: AppIntent {
     static let description = IntentDescription("intent.read.description")
     static let openAppWhenRun = false
 
-    @Parameter(title: "intent.read.screenshot", supportedContentTypes: [.image])
+    // supportedContentTypes 需要 iOS 18；不是图片时下面会返回“没有识别到”
+    @Parameter(title: "intent.read.screenshot")
     var screenshot: IntentFile
 
     func perform() async throws -> some IntentResult & ProvidesDialog {
