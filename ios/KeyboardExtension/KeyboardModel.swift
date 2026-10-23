@@ -29,8 +29,13 @@ final class KeyboardModel: ObservableObject {
     @Published private(set) var predictions: [String] = []
     @Published private(set) var layout: KeyboardLayout =
         KeyboardLayout(rawValue: UserDefaults.standard.string(forKey: KeyboardModel.layoutKey) ?? "") ?? .qwerty
+    /// 候选或联想展开成整块面板，盖住按键区
+    @Published private(set) var expanded = false
     /// 最近上屏的几个字，用来联想
     private var recent = ""
+    /// 最近上屏的一个词，用来记住用户自己的接续习惯
+    private var lastWord = ""
+    private let memory = InputMemory()
 
     let insert: (String) -> Void
     let deleteBackward: () -> Void
@@ -127,6 +132,7 @@ final class KeyboardModel: ObservableObject {
             predictions = []
             insert(" ")
             recent = ""
+            lastWord = ""
         } else if let first = candidates.first {
             pick(first)
         } else {
@@ -140,6 +146,7 @@ final class KeyboardModel: ObservableObject {
         if composing.isEmpty {
             insert("\n")
             recent = ""
+            lastWord = ""
         } else {
             commitRaw()
         }
@@ -154,9 +161,12 @@ final class KeyboardModel: ObservableObject {
         predictions = []
         insert(mark)
         recent = ""
+        lastWord = ""
     }
 
     func pick(_ candidate: Candidate) {
+        memory.recordPick(candidate.text, input: memoryKey(String(composing.prefix(candidate.consumedLength))))
+        expanded = false
         commit(candidate.text)
         composing = String(composing.dropFirst(candidate.consumedLength))
         while composing.first == "'" { composing.removeFirst() }
@@ -167,10 +177,16 @@ final class KeyboardModel: ObservableObject {
 
     func dismissPredictions() {
         predictions = []
+        expanded = false
+    }
+
+    func toggleExpanded() {
+        expanded.toggle()
     }
 
     /// 选联想词：直接上屏，再接着联想
     func pickPrediction(_ word: String) {
+        expanded = false
         commit(word)
         refreshPredictions()
     }
@@ -182,6 +198,8 @@ final class KeyboardModel: ObservableObject {
     }
 
     private func commit(_ text: String) {
+        memory.recordNext(text, after: lastWord)
+        lastWord = text
         insert(text)
         recent = String((recent + text).suffix(6))
     }
@@ -192,14 +210,32 @@ final class KeyboardModel: ObservableObject {
         composing = ""
         t9Syllable = nil
         recent = ""
+        lastWord = ""
         refreshCandidates()
     }
 
     private func refreshPredictions() {
-        predictions = engine?.predictions(after: recent) ?? []
+        let base = engine?.predictions(after: recent) ?? []
+        predictions = memory.predictions(after: lastWord, base: base)
+    }
+
+    /// 用户词频的键：全键是去掉分隔符的拼音，九键是数字串（加上选定的音节）
+    private func memoryKey(_ input: String) -> String {
+        if activeLayout == .t9 { return "t9:" + (t9Syllable.map { $0 + "|" } ?? "") + input }
+        return input.replacingOccurrences(of: "'", with: "")
     }
 
     private func refreshCandidates() {
+        refreshRawCandidates()
+        guard candidates.count > 1 else { return }
+        let ranked = memory.rank(candidates.map(\.text), input: memoryKey(composing))
+        guard ranked != candidates.map(\.text) else { return }
+        var byText: [String: Candidate] = [:]
+        for candidate in candidates where byText[candidate.text] == nil { byText[candidate.text] = candidate }
+        candidates = ranked.compactMap { byText[$0] }
+    }
+
+    private func refreshRawCandidates() {
         guard !composing.isEmpty, let engine else {
             candidates = []
             t9Syllables = []

@@ -62,3 +62,5 @@
 "keyboard.qwerty" = "全键";
 "keyboard.reset" = "重输";
 "keyboard.symbols" = "符号";
+"keyboard.expand" = "展开候选";
+"keyboard.collapse" = "收起候选";

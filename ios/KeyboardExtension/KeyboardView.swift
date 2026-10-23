@@ -35,6 +35,9 @@ struct KeyboardView: View {
         VStack(spacing: 0) {
             topBar
                 .frame(height: Metrics.barHeight)
+            if showsExpanded {
+                ExpandedCandidates(model: model)
+            } else {
             switch model.panel {
             case .keys:
                 if model.activeLayout == .t9 {
@@ -45,10 +48,16 @@ struct KeyboardView: View {
             case .symbols: SymbolKeys(model: model)
             case .assistant: assistant
             }
+            }
         }
         .padding(.horizontal, Metrics.sidePadding)
         .padding(.bottom, 4)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var showsExpanded: Bool {
+        model.expanded && model.panel != .assistant
+            && ((model.chineseMode && !model.composing.isEmpty) || !model.predictions.isEmpty)
     }
 
     /// 顶部栏：打拼音时显示候选词，刚上屏时显示联想，否则显示 AI 功能按钮
@@ -373,6 +382,102 @@ private struct CandidateBar: View {
             .noScrollEdgeBlur()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.trailing, 40)
+        .overlay(alignment: .trailing) {
+            ExpandButton(model: model)
+        }
+    }
+}
+
+/// 候选栏、联想栏右边的展开 / 收起按钮
+private struct ExpandButton: View {
+    @ObservedObject var model: KeyboardModel
+
+    var body: some View {
+        Button {
+            model.toggleExpanded()
+        } label: {
+            Image(systemName: model.expanded ? "chevron.up" : "chevron.down")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(.secondary)
+                .frame(width: 40, height: Metrics.barHeight)
+                .background(alignment: .leading) {
+                    Rectangle().fill(Color.secondary.opacity(0.25)).frame(width: 0.5, height: 24)
+                }
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(PressDimStyle())
+        .accessibilityLabel(Text(model.expanded ? "keyboard.collapse" : "keyboard.expand"))
+    }
+}
+
+/// 展开后的候选面板：所有候选词（没在打拼音时是联想词）排成网格，右边是收起、删除、重输
+private struct ExpandedCandidates: View {
+    @ObservedObject var model: KeyboardModel
+
+    private var showsCandidates: Bool { model.chineseMode && !model.composing.isEmpty }
+
+    var body: some View {
+        GeometryReader { geo in
+            let sideW = geo.size.width * 0.17
+            let rowH = max(36, (geo.size.height - 4 - 3 * Metrics.rowGap) / 4)
+
+            HStack(alignment: .top, spacing: Metrics.keyGap) {
+                ScrollView(.vertical, showsIndicators: true) {
+                    LazyVGrid(
+                        columns: [GridItem(.adaptive(minimum: 54), spacing: Metrics.keyGap)],
+                        spacing: Metrics.keyGap
+                    ) {
+                        if showsCandidates {
+                            ForEach(Array(model.candidates.enumerated()), id: \.offset) { index, candidate in
+                                cell(candidate.text, highlighted: index == 0) { model.pick(candidate) }
+                            }
+                        } else {
+                            ForEach(model.predictions, id: \.self) { word in
+                                cell(word, highlighted: false) { model.pickPrediction(word) }
+                            }
+                        }
+                    }
+                    .padding(.bottom, 4)
+                }
+                .frame(maxWidth: .infinity)
+                .noScrollEdgeBlur()
+
+                VStack(spacing: Metrics.rowGap) {
+                    KeyCap(systemImage: "chevron.up", function: true) { model.toggleExpanded() }
+                        .frame(height: rowH)
+                    KeyCap(systemImage: "delete.left", function: true) { model.tapDelete() }
+                        .frame(height: rowH)
+                    if showsCandidates {
+                        KeyCap(title: String(localized: "keyboard.reset"), function: true, font: .system(size: 16)) {
+                            model.clearComposing()
+                        }
+                        .frame(height: rowH)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .frame(width: sideW)
+            }
+            .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+            .padding(.top, 4)
+        }
+    }
+
+    private func cell(_ text: String, highlighted: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(text)
+                .font(.system(size: 19, weight: highlighted ? .semibold : .regular))
+                .foregroundStyle(highlighted ? Color.accentColor : Color.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+                .padding(.horizontal, 4)
+                .frame(maxWidth: .infinity)
+                .frame(height: 44)
+                .background(Color.keyFace, in: RoundedRectangle(cornerRadius: Metrics.keyRadius, style: .continuous))
+                .shadow(color: .keyShadow, radius: 0, x: 0, y: 1)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(PressDimStyle())
     }
 }
 
@@ -602,6 +707,7 @@ private struct PredictionBar: View {
                 }
             }
             .noScrollEdgeBlur()
+            ExpandButton(model: model)
             Button {
                 model.dismissPredictions()
             } label: {
