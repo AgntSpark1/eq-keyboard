@@ -32,9 +32,13 @@ def plain(syllable: str) -> str:
     return "".join(c for c in decomposed if not unicodedata.combining(c)).lower()
 
 
+def is_cjk(text: str) -> bool:
+    return all("一" <= c <= "鿿" for c in text)
+
+
 def is_hanzi(text: str) -> bool:
-    """只收简体常用字（GB2312 汉字区），排除繁体和生僻字。"""
-    if not all("一" <= c <= "鿿" for c in text):
+    """词语只收简体常用字（GB2312 汉字区），排除繁体词。"""
+    if not is_cjk(text):
         return False
     try:
         text.encode("gb2312")
@@ -50,11 +54,15 @@ def main(jieba_dict: str, pypinyin_dir: str, out_path: str) -> None:
         phrase_readings = {k: [plain(p[0]) for p in v] for k, v in json.load(f).items()}
 
     freqs: dict[str, int] = {}
+    # GB2312 以外的单字也记下 jieba 词频，让“赟”排在繁体“贇”前面
+    rare_char_freqs: dict[str, int] = {}
     with open(jieba_dict, encoding="utf-8") as f:
         for line in f:
             parts = line.split()
             if len(parts) >= 2 and is_hanzi(parts[0]) and len(parts[0]) <= MAX_WORD_LEN:
                 freqs[parts[0]] = max(freqs.get(parts[0], 0), int(parts[1]))
+            elif len(parts) >= 2 and len(parts[0]) == 1 and is_cjk(parts[0]):
+                rare_char_freqs[parts[0]] = max(rare_char_freqs.get(parts[0], 0), int(parts[1]))
 
     for line in CHAT_WORDS.read_text(encoding="utf-8").splitlines():
         if line.startswith("#"):
@@ -65,11 +73,12 @@ def main(jieba_dict: str, pypinyin_dir: str, out_path: str) -> None:
 
     rows: list[tuple[str, str, int]] = []
 
-    # 单字：所有读音都收录，保证多音字可打
+    # 单字：所有读音都收录，保证多音字可打。常用字之外的生僻字（犇、赟、喆、燚等）也收，
+    # 用 jieba 里的单字词频（多数很低），排在同音常用字后面
     for ch, readings in char_readings.items():
-        if not is_hanzi(ch):
+        if not is_cjk(ch):
             continue
-        freq = freqs.get(ch, 1)
+        freq = freqs.get(ch, 1) if is_hanzi(ch) else rare_char_freqs.get(ch, 1)
         for i, reading in enumerate(dict.fromkeys(readings)):
             # 非首选读音降权
             rows.append((reading, ch, freq if i == 0 else max(1, freq // 10)))

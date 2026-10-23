@@ -82,7 +82,8 @@ struct T9Index: Sendable {
 extension PinyinEngine {
     /// 九键候选：先给覆盖全部数字的词（完整匹配在前，最后一个音节没打完的在后，各自按词频），
     /// 再依次给覆盖前面更少数字的词。firstSyllable 是用户在左侧选定的第一个音节。
-    public func t9Candidates(for digits: String, firstSyllable: String? = nil, limit: Int = 60) -> [T9Candidate] {
+    /// limit 放得比较大，展开候选面板时能翻到生僻字
+    public func t9Candidates(for digits: String, firstSyllable: String? = nil, limit: Int = 1000) -> [T9Candidate] {
         guard !digits.isEmpty else { return [] }
         var result: [T9Candidate] = []
         var seen = Set<String>()

@@ -47,6 +47,16 @@ final class PinyinEngineTests: XCTestCase {
         XCTAssertEqual(candidates.first, Candidate(text: "我", consumedLength: 2))
     }
 
+    func testRareCharacters() {
+        // 常用字表（GB2312）以外的字也能打出来，但排在同音常用字后面
+        let yun = engine.candidates(for: "yun").map(\.text)
+        XCTAssertEqual(yun.first, "云")
+        XCTAssertTrue(yun.contains("赟"))
+        XCTAssertTrue(engine.candidates(for: "ben").contains { $0.text == "犇" })
+        XCTAssertTrue(engine.candidates(for: "yi").contains { $0.text == "燚" })
+        XCTAssertTrue(engine.t9Candidates(for: "94").contains { $0.text == "燚" })
+    }
+
     func testUmlautAsV() {
         XCTAssertTrue(engine.candidates(for: "lv").contains { $0.text == "绿" })
     }
