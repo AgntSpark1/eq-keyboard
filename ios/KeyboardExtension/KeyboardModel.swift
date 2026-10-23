@@ -12,6 +12,7 @@ final class KeyboardModel: ObservableObject {
     static let layoutKey = "keyboardLayout"
     /// 展开面板里要能翻到生僻字，候选多取一些
     static let candidateLimit = 400
+    static let pasteboardKey = "lastPasteboardChange"
 
     @Published var panel: Panel = .keys
     @Published var suggestions: [ReplySuggestion] = []
@@ -19,6 +20,8 @@ final class KeyboardModel: ObservableObject {
     @Published var isLoading = false
     @Published var message: String?
     @Published var tone: TonePreferences
+    /// 这次回复带上的前文
+    @Published private(set) var session = SharedStore.shared.chatSession.flatMap { $0.isExpired() ? nil : $0 } ?? ChatSession()
     @Published var chineseMode = true
     @Published private(set) var composing = ""
     @Published private(set) var candidates: [Candidate] = []
@@ -267,15 +270,39 @@ final class KeyboardModel: ObservableObject {
         store.tone = tone
     }
 
-    /// 对话来源：优先使用主 App 导入的截图对话，否则把剪贴板内容当作对方的消息
-    private func conversation() -> [ChatTurn] {
+    /// 整理对话上下文：App 或快捷指令导入的截图替换整段；剪贴板有新内容就当作对方新发的一条。
+    /// 只在剪贴板变过时才读内容，避免每次都触发系统的粘贴提示。
+    private func syncConversation() {
+        var current = store.chatSession ?? ChatSession()
+        if current.isExpired() { current = ChatSession() }
         let imported = store.importedConversation
-        if !imported.isEmpty { return imported }
-        guard let pasted = UIPasteboard.general.string?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !pasted.isEmpty else { return [] }
-        return pasted
-            .split(separator: "\n")
-            .map { ChatTurn(speaker: .them, text: String($0)) }
+        if !imported.isEmpty {
+            current = ChatSession(turns: Array(imported.suffix(ChatSession.maxTurns)))
+            store.importedConversation = []
+        }
+        let pasteboard = UIPasteboard.general
+        let defaults = UserDefaults.standard
+        if pasteboard.changeCount != defaults.integer(forKey: Self.pasteboardKey) {
+            defaults.set(pasteboard.changeCount, forKey: Self.pasteboardKey)
+            if pasteboard.hasStrings, let text = pasteboard.string {
+                current.add(.them, text)
+            }
+        }
+        save(current)
+    }
+
+    private func save(_ newSession: ChatSession) {
+        session = newSession
+        store.chatSession = newSession.turns.isEmpty ? nil : newSession
+    }
+
+    /// 换了聊天对象时清空前文；当前剪贴板算作已读，不会被再次当成新消息
+    func clearSession() {
+        UserDefaults.standard.set(UIPasteboard.general.changeCount, forKey: Self.pasteboardKey)
+        save(ChatSession())
+        suggestions = []
+        check = nil
+        message = String(localized: "keyboard.noConversation")
     }
 
     func run(_ mode: ReplyMode) {
@@ -284,7 +311,8 @@ final class KeyboardModel: ObservableObject {
             panel = .assistant
             return
         }
-        let turns = conversation()
+        syncConversation()
+        let turns = session.turns
         guard !turns.isEmpty else {
             message = String(localized: "keyboard.noConversation")
             panel = .assistant
@@ -327,11 +355,9 @@ final class KeyboardModel: ObservableObject {
             for _ in currentDraft() { deleteBackward() }
         }
         insert(suggestion.text)
+        var updated = session
+        updated.add(.me, suggestion.text)
+        save(updated)
         panel = .keys
-    }
-
-    /// 用过的截图对话清掉，避免下一次误用
-    func clearImported() {
-        store.importedConversation = []
     }
 }

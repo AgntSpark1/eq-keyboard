@@ -122,6 +122,9 @@ struct KeyboardView: View {
                 ToneChip(title: "tone.brief", isOn: model.tone.brief) { model.toggleTone(\.brief) }
             }
             .padding(.horizontal, 4)
+            if let last = model.session.lastTheirs {
+                ContextBar(text: last, count: model.session.turns.count) { model.clearSession() }
+            }
             if model.isLoading {
                 ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let message = model.message {
@@ -140,7 +143,6 @@ struct KeyboardView: View {
                         ForEach(model.suggestions) { suggestion in
                             Button {
                                 model.use(suggestion, replacingDraft: lastMode != .reply)
-                                model.clearImported()
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(suggestion.text).font(.body).foregroundStyle(.primary)
@@ -162,6 +164,30 @@ struct KeyboardView: View {
             }
         }
         .frame(maxHeight: .infinity)
+    }
+}
+
+/// 显示这次回复针对的是对方哪句话，换了聊天对象可以一键清空
+private struct ContextBar: View {
+    let text: String
+    let count: Int
+    let onClear: () -> Void
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "quote.bubble").font(.system(size: 12))
+            Text("keyboard.context \(text)").lineLimit(1).truncationMode(.middle)
+            Spacer(minLength: 4)
+            Text("keyboard.turns \(count)").monospacedDigit()
+            Button(action: onClear) {
+                Image(systemName: "xmark.circle.fill").font(.system(size: 15))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("keyboard.newChat"))
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
+        .padding(.horizontal, 8)
     }
 }
 
